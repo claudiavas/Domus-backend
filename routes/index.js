@@ -1,9 +1,11 @@
 var express = require('express');
 var router = express.Router();
 
-/* GET home page. */
-router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Express' });
-});
+housingController = require('../controllers/housingController')
+
+router.get('/:houseId?', housingController.getHouse)
+router.post('/', housingController.addHouse)
+//router.delete('/:houseId', housingController.permanentDelete)
+//router.put('/:houseId', housingController.updateHouse)
 
 module.exports = router;
