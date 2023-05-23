@@ -4,10 +4,12 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 const cors = require("cors")
-const port = 5001
+const port = 8000
 
-var indexRouter = require('./routes/index');
-var usersRouter = require('../verde-backend - copia/routes/users');
+var indexRoutes = require('./routes/index');
+var usersRoutes = require('./routes/users');
+var housingRoutes = require('./routes/housingRoutes');
+var requestsRoutes = require('./routes/requestsRoutes');
 
 var app = express();
 
@@ -22,35 +24,38 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(cors())
 
-// Load enviroment variables
+// Load environment variables
 require('dotenv').config()
 
 // Connect to database
 const mongoose = require("mongoose");
-const mongoDB = "mongodb+srv://"+process.env.DB_USER+":"+process.env.DB_PASSWORD+"@"+process.env.DB_SERVER+"/"+process.env.DB_NAME+"?retryWrites=true&w=majority";
+const mongoDB = "mongodb+srv://" + process.env.DB_USER + ":" + process.env.DB_PASSWORD + "@" + process.env.DB_SERVER + "/" + process.env.DB_NAME + "?retryWrites=true&w=majority";
 async function main() {
   await mongoose.connect(mongoDB);
 }
 main().catch(err => console.log(err));
 
-/* GET home page. */
-app.get('/', (req, res) => {
-  res.send('Hello World!')
-});
+// Load routes
+app.use('/', indexRoutes);
+app.use('/users', usersRoutes);
+app.use('/api/housing', housingRoutes);
+app.use('/api/requests', requestsRoutes);
 
 // Load routes
 const index = require("./routes/index")
-app.use("/housing",index)
-app.use('/', indexRouter);
-app.use('/users', usersRouter);
+app.use("/housing", index)
+
+app.get('/', (req, res) => {
+  res.send('Hello World!');
+});
 
 // catch 404 and forward to error handler
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
   next(createError(404));
 });
 
 // error handler
-app.use(function(err, req, res, next) {
+app.use(function (err, req, res, next) {
   // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
@@ -60,9 +65,9 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 
-//Start server
+// Start server
 app.listen(port, () => {
-  console.log(`Example app listening on port ${port}`)
-})
+  console.log(`Example app listening on port ${port}`);
+});
 
 module.exports = app;

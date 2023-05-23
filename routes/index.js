@@ -1,11 +1,9 @@
 var express = require('express');
 var router = express.Router();
 
-housingController = require('../controllers/housingController')
-
-router.get('/:houseId?', housingController.getHouse)
-router.post('/', housingController.addHouse)
-//router.delete('/:houseId', housingController.permanentDelete)
-//router.put('/:houseId', housingController.updateHouse)
+// Ruta raíz o página de inicio
+router.get('/', function(req, res) {
+  res.send('Hello World!');
+});
 
 module.exports = router;
