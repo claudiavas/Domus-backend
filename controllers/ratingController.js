@@ -1,4 +1,4 @@
-const Housing = require('../models/ratingModel.js');
+const Rating = require('../models/ratingModel.js');
 
 const { ObjectId } = require('mongodb');
 const agentId = new ObjectId()
