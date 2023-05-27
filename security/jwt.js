@@ -1,6 +1,6 @@
 const express = require("express");
 const jwt = require("jsonwebtoken");
-//const User = require("../models/User");
+const User = require("../models/agent.model");
 const jwtSecret = process.env.JWT_SECRET;
 
 const authRouter = express.Router();
@@ -15,7 +15,7 @@ authRouter.post("/register", async (req, res) => {
   }
 
 /** Preparar para utilizar los datos desde el controller Agents */  
- /* const existingUser = await User.findOne({ email: email });
+  const existingUser = await User.findOne({ email: email });
   // * If the user is found, return an error because there is already a user registered
   if (existingUser) {
     return res
@@ -42,7 +42,7 @@ authRouter.post("/register", async (req, res) => {
         .status(500)
         .json({ error: { firstName: "Error creating new User :(", err } });
     }
-  }*/
+  }
 });
 
 // ! --------------------------------------
