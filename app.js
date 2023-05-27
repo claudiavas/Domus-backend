@@ -41,6 +41,7 @@ app.get('/', (req, res) => {
 // Load routes
 const index = require("./routes/index")
 app.use("/housing",index)
+app.use("/reg-rating",index)
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 
