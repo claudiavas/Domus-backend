@@ -29,7 +29,12 @@ require('dotenv').config()
 
 // Connect to database
 const mongoose = require("mongoose");
+
+console.log("db user", process.env.DB_USER);
+console.log("db password", process.env.DB_PASSWORD);
+
 const mongoDB = "mongodb+srv://" + process.env.DB_USER + ":" + process.env.DB_PASSWORD + "@" + process.env.DB_SERVER + "/" + process.env.DB_NAME + "?retryWrites=true&w=majority";
+console.log("mongoDB",mongoDB);
 async function main() {
   await mongoose.connect(mongoDB);
 }
