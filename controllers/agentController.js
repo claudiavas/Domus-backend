@@ -1,4 +1,4 @@
-const Agent = require ('../models/agent.model');
+const Agent = require ('../models/agentModel');
 
 const { objectId } = require ('mongodb');
 const realStateId = new Objectid ();

@@ -1,6 +1,6 @@
 const express = require("express");
 const jwt = require("jsonwebtoken");
-const User = require("../models/agent.model");
+const User = require("../models/agentModel");
 const jwtSecret = process.env.JWT_SECRET;
 
 const authRouter = express.Router();
