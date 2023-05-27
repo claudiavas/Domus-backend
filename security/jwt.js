@@ -14,7 +14,7 @@ authRouter.post("/register", async (req, res) => {
     return res.status(400).json({ error: { register: "Email not received" } });
   }
 
-/** Preparar para utilizar los datos desde el Agents */  
+/** Preparar para utilizar los datos desde el controller Agents */  
  /* const existingUser = await User.findOne({ email: email });
   // * If the user is found, return an error because there is already a user registered
   if (existingUser) {
