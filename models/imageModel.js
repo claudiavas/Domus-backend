@@ -1,12 +1,10 @@
 const mongoose = require('mongoose');
 
 const imageSchema = new mongoose.Schema({
-  dateupload: { 
+  dateUpload: { 
     type: Date, default: Date.now, required: true 
     },
 
-  _id: { 
-    type: mongoose.Schema.Types.ObjectId, auto: true, required: true },
   housing_id: { 
     type: Number, required: true 
     },
