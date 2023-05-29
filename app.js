@@ -7,7 +7,7 @@ const cors = require("cors")
 const port = 5001
 
 var indexRouter = require('./routes/index');
-var usersRouter = require('../verde-backend - copia/routes/users');
+var usersRouter = require('./routes/users');
 
 var app = express();
 
@@ -37,11 +37,14 @@ main().catch(err => console.log(err));
 app.get('/', (req, res) => {
   res.send('Hello World!')
 });
+app.get('/', (req,res) => {
+  
+})
+
 
 // Load routes
 const index = require("./routes/index")
-app.use("/housing",index)
-app.use("/reg-rating",index)
+app.use("/housing",index);
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 

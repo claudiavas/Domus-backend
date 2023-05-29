@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const mySchema = new mongoose.Schema({
+const ratingSchema = new mongoose.Schema({
 
   id_rating_author: { 
     type: Number, required: true 
@@ -43,4 +43,4 @@ const mySchema = new mongoose.Schema({
 
 
 
-module.exports = mongoose.model('rating', mySchema);
+module.exports = mongoose.model('rating', ratingSchema);
