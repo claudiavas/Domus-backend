@@ -8,11 +8,10 @@ generalRouter.use("/", authRouter);
 
 generalRouter.use("/agent", jwtMiddleware, agentRoutes);
 
-
-
 // Ruta raíz o página de inicio
 generalRouter.get('/', function(req, res) {
   res.send('Hello World!');
 });
+
 
 module.exports = generalRouter;

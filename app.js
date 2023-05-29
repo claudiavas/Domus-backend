@@ -52,9 +52,10 @@ app.use('/users', usersRoutes);
 app.use('/api/housing', housingRoutes);
 app.use('/api/requests', requestsRoutes);
 
+
 // Load routes
 const index = require("./routes/index")
-app.use("/housing", index)
+app.use("/housing", index);
 
 app.get('/', (req, res) => {
   res.send('Hello World!');
