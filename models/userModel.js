@@ -73,6 +73,10 @@ const userSchema = new Schema({
     enum: ['AGENTE', 'INMOBILIARIA', 'CLIENTE'],
     required: true
   },
+  foto_perfil: {
+    type: String,
+    default: ''
+  },
   deleteAt: {
     type: Date
   },
