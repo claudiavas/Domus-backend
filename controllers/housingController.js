@@ -65,50 +65,28 @@ const addHouse = (req,res) => {
     });
 };
 
- const getHouse = (req, res) => {
-  if (req.params.houseId) {
-    Housing.findById(req.params.houseId)
-      .then((house) => {
-        if (house === null) {
-          res.status(404).send({ msg: 'No se ha encontrado la vivienda' });
-        } else {
-          res.status(200).send(house);
-        }
-      })
-      .catch((error) => {
-        console.log(error);
-        switch (error.name) {
-          case 'CastError':
-            res.status(400).send('Formato de ID inválido');
-            break;
-          default:
-            res.status(400).send(error);
-        }
-      });
-  } else {
-    let filter = {};
+const getHouse = (req, res) => {
+  let filter = {}; // Define the 'filter' variable with a default value
 
-    if (req.query.status) {
-      filter.status = req.query.status;
-    }
-
-    console.log(req.query.status, filter);
-    Housing.find(filter)
-      .then((houses) => {
-        if (houses.length === 0) {
-          res.status(404).send({ msg: 'No se han encontrado viviendas' });
-        } else {
-          res.status(200).send(houses);
-        }
-      })
-      .catch((error) => res.status(400).send(error));
+  if (req.query.status) {
+    filter.status = req.query.status;
   }
+
+  Housing.find(filter)
+    .then((houses) => {
+      if (houses.length === 0) {
+        res.status(404).send({ msg: 'No se han encontrado viviendas' });
+      } else {
+        res.status(200).send(houses);
+      }
+    })
+    .catch((error) => res.status(400).send(error));
 };
 
 module.exports = {
   getHouse,
   addHouse,
-  //deleteHouse,
-  //updateHouse,
-  //permanentDelete
-}
+  // deleteHouse,
+  // updateHouse,
+  // permanentDelete
+};
