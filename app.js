@@ -5,8 +5,6 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 const cors = require("cors")
 
-// Load environment variables
-require('dotenv').config()
 
 const port = process.env.PORT || 3005
 
@@ -52,9 +50,8 @@ app.use('/users', usersRoutes);
 app.use('/api/housing', housingRoutes);
 app.use('/api/requests', requestsRoutes);
 
-// Load routes
-const index = require("./routes/index")
-app.use("/housing", index)
+//const index = require("./routes/index")
+//app.use("/housing", index)
 
 app.get('/', (req, res) => {
   res.send('Hello World!');
@@ -77,8 +74,8 @@ app.use(function (err, req, res, next) {
 });
 
 // Start server
-app.listen(port, () => {
-  console.log(`Example app listening on port ${port}`);
-});
+// app.listen(port, () => {
+//  console.log(`Example app listening on port ${port}`);
+//});
 
 module.exports = app;

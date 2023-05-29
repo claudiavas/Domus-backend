@@ -1,9 +1,9 @@
-const dotenv = require("dotenv");
+//const dotenv = require("dotenv");
 const mongoose = require ("mongoose");
 
 //we imort dotenv and activate the config method to be able to
 //use environment variables inside this file
-dotenv.config();
+//dotenv.config();
 
 const mongoUrl = process.env.MONGO_URL;
 const databaseHost = process.env.DATABASE_HOST || 'localhost';
@@ -31,7 +31,6 @@ const databaseURL = "mongodb+srv://" + process.env.DB_USER + ":" + process.env.D
 
 //some configuration
 mongoose.set("strictQuery", false);
-
 const mongo = mongoose.connection;
 mongo.on("error", (error) => console.error(error));
 mongo.once("open", () => {

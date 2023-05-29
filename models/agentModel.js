@@ -48,7 +48,9 @@ const agentSchema = new Schema({
   email: {
     type: String,
     default: null,
-    match: /^\S+@\S+\.\S+$/
+    match: /^\S+@\S+\.\S+$/,
+    unique: true,
+    trim: true
   },
   password: {
     type: String,
