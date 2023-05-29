@@ -1,4 +1,4 @@
-const Rating = require('../models/imageModel.js');
+const Image = require('../models/imageModel.js');
 
 const { ObjectId } = require('mongodb');
 const imageId = new ObjectId()
