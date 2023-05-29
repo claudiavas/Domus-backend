@@ -5,13 +5,13 @@ const jwt = require('jsonwebtoken');
 const secret = process.env.JWT_SECRET;
 const Schema = mongoose.Schema;
 
-const agentSchema = new Schema({
-  id_agent: {
+const userSchema = new Schema({
+  id: {
     type: Number,
     required: true,
     unique: true
   },
-  identification_agent: {
+  identification: {
     type: String,
     required: true
   },
@@ -68,6 +68,11 @@ const agentSchema = new Schema({
     type: Number,
     required: true
   },
+  tipo_usuario: {
+    type: String,
+    enum: ['AGENTE', 'INMOBILIARIA', 'CLIENTE'],
+    required: true
+  },
   deleteAt: {
     type: Date
   },
@@ -77,7 +82,7 @@ const agentSchema = new Schema({
   timestamps:true }
 );
 
-agentSchema.methods.generateJWT = function() {
+userSchema.methods.generateJWT = function() {
   const today = new Date();
   const expirationDate = new Date();
 
@@ -95,6 +100,6 @@ agentSchema.methods.generateJWT = function() {
   })
 };
 
-const Agent = mongoose.model('Agent', agentSchema);
+const User = mongoose.model('User', userSchema);
 
-module.exports = Agent;
+module.exports = User;
