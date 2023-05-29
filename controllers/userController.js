@@ -40,20 +40,20 @@ newUser
 };
 
 const getUser = (req,res) => {
-    if (req.params.agentId) {
-        User.findById(req.params.agentId)
-            .then ((agent) => {
-                if (agent === null ) {
-                    res.status(400).send({ msg: 'No se ha encontrado el Agente/Corredor '});
+    if (req.params.userId) {
+        User.findById(req.params.userId)
+            .then ((user) => {
+                if (user === null ) {
+                    res.status(400).send({ msg: 'No se ha encontrado el usere/Corredor '});
                 } else {
-                    res.status(200).send(agent);
+                    res.status(200).send(user);
                 }
             })
             .catch ((error) => {
                 console.log(error);
                 switch (error.name) {
                     case 'CastError':
-                        res.status(400).send('Formato de ID de Agente inválido');
+                        res.status(400).send('Formato de ID de usere inválido');
                         break;
                     default:
                         res.status(400).send(error);
@@ -82,7 +82,7 @@ const getUser = (req,res) => {
 module.exports = {
     getUser,
     addUser,
-    //deleteAgent,
-    //updateAgent,
-    //permanetDeleteAgent
+    //deleteuser,
+    //updateuser,
+    //permanetDeleteuser
 }
