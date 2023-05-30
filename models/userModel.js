@@ -86,6 +86,35 @@ const userSchema = new Schema({
   timestamps:true }
 );
 
+// Esta función se ejecuta "antes" de guardar cualquier usuario en Mongo (Trigger)
+
+userSchema.pre('save', function (next) {
+  const user = this;
+
+  //Si no se ha cambiado la contraseña, seguimos
+  if (!user.isModified('password')) return next();
+
+  // bcrypt es una libreria que genera "hashes", encriptamos la contraseña
+  bcrypt.genSalt(10, function (err, salt) {
+    if (err) return next(err);
+
+    bcrypt.hash(user.password, salt, function (err, hash) {
+      if (err) return next(err);
+
+      //si no ha habido error en el encryptado, guardamos
+      user.password = hash;
+      next();
+    });
+  });
+
+});
+
+// Metodo que compara la password
+userSchema.methods.comparePassword = function (password) {
+  return bcrypt.compareSync(password, this.password);
+};
+
+// Method to generate the JWT (You choose the name)
 userSchema.methods.generateJWT = function() {
   const today = new Date();
   const expirationDate = new Date();

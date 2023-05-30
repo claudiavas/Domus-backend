@@ -1,17 +1,12 @@
 const express = require('express');
-const router = express.Router();
 const generalRouter = express.Router();
+
+const userRouter = require('./usersRoutes')
 const { jwtMiddleware, authRouter} = require("../security/jwt")
 
 generalRouter.use("/", authRouter);
-
-//generalRouter.use("")
-
+generalRouter.use("/user",jwtMiddleware, userRouter)
 
 
-// Ruta raíz o página de inicio
-//router.get('/', function(req, res) {
-//  res.send('Hello World!');
-//});
 
 module.exports = generalRouter;

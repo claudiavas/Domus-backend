@@ -9,7 +9,7 @@ const cors = require("cors")
 const port = process.env.PORT || 3005
 
 var indexRoutes = require('./routes/index');
-var usersRoutes = require('./routes/users');
+var usersRoutes = require('./routes/usersRoutes');
 var housingRoutes = require('./routes/housingRoutes');
 var requestsRoutes = require('./routes/requestsRoutes');
 

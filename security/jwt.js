@@ -64,7 +64,6 @@ authRouter.post("/login", async (req, res) => {
     }
     // * Validate password with bcrypt library
     if (!foundUser.comparePassword(password)) { 
-    //  if (foundUser.password !== password) {
       return res.status(400).json({ error: { password: "Invalid Password" } });
     }
     // * if everything is ok, return the new token and user data
