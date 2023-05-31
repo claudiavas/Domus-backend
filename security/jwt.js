@@ -1,6 +1,6 @@
 const express = require("express");
 const jwt = require("jsonwebtoken");
-const User = require("../models/agentModel");
+const User = require("../models/userModel");
 const jwtSecret = process.env.JWT_SECRET;
 
 const authRouter = express.Router();
@@ -14,7 +14,7 @@ authRouter.post("/register", async (req, res) => {
     return res.status(400).json({ error: { register: "Email not received" } });
   }
 
-/** Preparar para utilizar los datos desde el controller Agents */  
+/** Preparar para utilizar los datos desde el controller Users */  
   const existingUser = await User.findOne({ email: email });
   // * If the user is found, return an error because there is already a user registered
   if (existingUser) {
@@ -25,7 +25,12 @@ authRouter.post("/register", async (req, res) => {
     const newUser = new User({
       email: data.email,
       password: data.password,
-      firstName: data.firstName,
+      name: data.name,
+      surname: data.surname,
+      identification: data.identification,
+      zip_code: data.zip_code,
+      id_realstate: data.id_realstate,
+      tipo_usuario: "AGENTE",
     });
     const savedUser = await newUser.save();
     if (savedUser) {
@@ -63,8 +68,7 @@ authRouter.post("/login", async (req, res) => {
         .json({ error: { email: "User not found, please Register" } });
     }
     // * Validate password with bcrypt library
-    //if (!foundUser.comparePassword(password)) { 
-      if (foundUser.password !== password) {
+    if (!foundUser.comparePassword(password)) { 
       return res.status(400).json({ error: { password: "Invalid Password" } });
     }
     // * if everything is ok, return the new token and user data
@@ -108,6 +112,22 @@ const jwtMiddleware = (req, res, next) => {
   req.jwtPayload = tokenPayload;
   next();
 };
+
+User.schema.pre("save", function(next) {
+  const user = this;
+  // si no se ha cambiado la contraseña, seguimos
+  if (!user.isModified("password")) return next();
+  // bcrypt es una librería que genera "hashes", encriptamos la contraseña
+  bcrypt.genSalt(10, function (err, salt) {
+    if (err) return next(err);
+    bcrypt.hash(user.password, salt, function(err, hash) {
+      if (err) return next(err);
+      // si no ha habido error en el encriptado, guardamos
+      user.password = hash;
+      next();
+    });
+  });
+});
 
 module.exports = {
   authRouter,

@@ -1,12 +1,12 @@
-const Agent = require ('../models/agentModel');
+const user = require ('../models/userModel');
 
 const { objectId } = require ('mongodb');
 const realStateId = new Objectid ();
 
-const addAgent = (req, res) => {
-    const newAgent = new Agent({
-        id_agent:req.body.id_agent,
-        identification_agent: req.body.identification_agent,
+const addUser= (req, res) => {
+    const newUser = new User({
+        id_:req.body.id_,
+        identification: req.body.identification,
         name: req.body.name,
         surname: req.body.surname,
         address: req.body.address,
@@ -15,20 +15,23 @@ const addAgent = (req, res) => {
         zip_code: req.body.zip_code,
         telephone: req.body.telephone,
         email: req.body.email,
+        password: req.body.password,
         date_register: req.body.date_register,
         observations: req.body.observations,
         id_realstate: req.body.id_realstate,
+        tipo_usuario: req.body.tipo_usuario,
+        foto_perfil: req.body.foto_perfil,
         deleteAt:req.body.deleteAt
     });
 
-newAgent
+newUser
     .save()
-    .then((agent) => res.status(200).send(agent))    
+    .then((user) => res.status(200).send(user))    
     .catch((error) => {
         console.log(error.code);
         switch (error.code) {
             case 11000:
-                res.status(400).send({msg: 'El agente ya existe' });
+                res.status(400).send({msg: 'El Usuario ya existe' });
                 break;
             default:
                 res.status(400).send(error);
@@ -36,21 +39,21 @@ newAgent
     });
 };
 
-const getAgent = (req,res) => {
-    if (req.params.agentId) {
-        Agent.findById(req.params.agentId)
-            .then ((agent) => {
-                if (agent === null ) {
-                    res.status(400).send({ msg: 'No se ha encontrado el Agente/Corredor '});
+const getUser = (req,res) => {
+    if (req.params.userId) {
+        User.findById(req.params.userId)
+            .then ((user) => {
+                if (user === null ) {
+                    res.status(400).send({ msg: 'No se ha encontrado el usere/Corredor '});
                 } else {
-                    res.status(200).send(agent);
+                    res.status(200).send(user);
                 }
             })
             .catch ((error) => {
                 console.log(error);
                 switch (error.name) {
                     case 'CastError':
-                        res.status(400).send('Formato de ID de Agente inválido');
+                        res.status(400).send('Formato de ID de usere inválido');
                         break;
                     default:
                         res.status(400).send(error);
@@ -64,12 +67,12 @@ const getAgent = (req,res) => {
         }
 
         console.log(req.query.status, filter);
-        Agent.find(filter)
-            .then ((agents) => {
-                if (agents.length === 0) {
-                    res.status(404).send({msg: 'No se han encontrado Agentes' }) 
+        User.find(filter)
+            .then ((users) => {
+                if (users.length === 0) {
+                    res.status(404).send({msg: 'No se han encontrado Usuarios' }) 
                 } else {
-                    res.status(200).send(agents);
+                    res.status(200).send(users);
                 }
             })
             .catch ((error)=> res.status(400).send(error));
@@ -77,9 +80,9 @@ const getAgent = (req,res) => {
 };
 
 module.exports = {
-    getAgent,
-    addAgent,
-    //deleteAgent,
-    //updateAgent,
-    //permanetDeleteAgent
+    getUser,
+    addUser,
+    //deleteuser,
+    //updateuser,
+    //permanetDeleteuser
 }

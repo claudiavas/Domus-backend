@@ -5,15 +5,15 @@ const jwt = require('jsonwebtoken');
 const secret = process.env.JWT_SECRET;
 const Schema = mongoose.Schema;
 
-const agentSchema = new Schema({
-  id_agent: {
+const userSchema = new Schema({
+/*  id: {
     type: Number,
     required: true,
     unique: true
-  },
-  identification_agent: {
+  }, ya esta en la BBDD por defecto _id tiene sentido duplicarlo?*/
+  identification: {
     type: String,
-    required: true
+//    required: true
   },
   name: {
     type: String,
@@ -48,7 +48,9 @@ const agentSchema = new Schema({
   email: {
     type: String,
     default: null,
-    match: /^\S+@\S+\.\S+$/
+    match: /^\S+@\S+\.\S+$/,
+    unique: true,
+    trim: true
   },
   password: {
     type: String,
@@ -64,7 +66,16 @@ const agentSchema = new Schema({
   },
   id_realstate: {
     type: Number,
+//    required: true
+  },
+  tipo_usuario: {
+    type: String,
+    enum: ['AGENTE', 'INMOBILIARIA', 'CLIENTE'],
     required: true
+  },
+  foto_perfil: {
+    type: String,
+    default: ''
   },
   deleteAt: {
     type: Date
@@ -75,14 +86,43 @@ const agentSchema = new Schema({
   timestamps:true }
 );
 
-agentSchema.methods.generateJWT = function() {
+// Esta función se ejecuta "antes" de guardar cualquier usuario en Mongo (Trigger)
+
+userSchema.pre('save', function (next) {
+  const user = this;
+
+  //Si no se ha cambiado la contraseña, seguimos
+  if (!user.isModified('password')) return next();
+
+  // bcrypt es una libreria que genera "hashes", encriptamos la contraseña
+  bcrypt.genSalt(10, function (err, salt) {
+    if (err) return next(err);
+
+    bcrypt.hash(user.password, salt, function (err, hash) {
+      if (err) return next(err);
+
+      //si no ha habido error en el encryptado, guardamos
+      user.password = hash;
+      next();
+    });
+  });
+
+});
+
+// Metodo que compara la password
+userSchema.methods.comparePassword = function (password) {
+  return bcrypt.compareSync(password, this.password);
+};
+
+// Method to generate the JWT (You choose the name)
+userSchema.methods.generateJWT = function() {
   const today = new Date();
   const expirationDate = new Date();
 
   expirationDate.setDate(today.getDate() + 60);
 
   let payload = {
-    id: this._id,
+    //id: this._id,
     name: this.name,
     email: this.email,
     algo:'HS256' 
@@ -93,6 +133,6 @@ agentSchema.methods.generateJWT = function() {
   })
 };
 
-const Agent = mongoose.model('Agent', agentSchema);
+const User = mongoose.model('User', userSchema);
 
-module.exports = Agent;
+module.exports = User;
