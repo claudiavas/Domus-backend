@@ -6,14 +6,14 @@ const secret = process.env.JWT_SECRET;
 const Schema = mongoose.Schema;
 
 const userSchema = new Schema({
-  id: {
+/*  id: {
     type: Number,
     required: true,
     unique: true
-  },
+  }, ya esta en la BBDD por defecto _id tiene sentido duplicarlo?*/
   identification: {
     type: String,
-    required: true
+//    required: true
   },
   name: {
     type: String,
@@ -66,7 +66,7 @@ const userSchema = new Schema({
   },
   id_realstate: {
     type: Number,
-    required: true
+//    required: true
   },
   tipo_usuario: {
     type: String,
@@ -122,7 +122,7 @@ userSchema.methods.generateJWT = function() {
   expirationDate.setDate(today.getDate() + 60);
 
   let payload = {
-    id: this._id,
+    //id: this._id,
     name: this.name,
     email: this.email,
     algo:'HS256' 

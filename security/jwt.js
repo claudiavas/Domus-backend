@@ -14,7 +14,7 @@ authRouter.post("/register", async (req, res) => {
     return res.status(400).json({ error: { register: "Email not received" } });
   }
 
-/** Preparar para utilizar los datos desde el controller Agents */  
+/** Preparar para utilizar los datos desde el controller Users */  
   const existingUser = await User.findOne({ email: email });
   // * If the user is found, return an error because there is already a user registered
   if (existingUser) {
@@ -25,7 +25,12 @@ authRouter.post("/register", async (req, res) => {
     const newUser = new User({
       email: data.email,
       password: data.password,
-      firstName: data.firstName,
+      name: data.name,
+      surname: data.surname,
+      identification: data.identification,
+      zip_code: data.zip_code,
+      id_realstate: data.id_realstate,
+      tipo_usuario: "AGENTE",
     });
     const savedUser = await newUser.save();
     if (savedUser) {
