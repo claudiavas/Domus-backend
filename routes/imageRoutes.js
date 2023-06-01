@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-ratingController = require('../controllers/imageController')
+imageController = require('../controllers/imageController')
 
 
 router.get('/:imageId?', imageController.getImage)

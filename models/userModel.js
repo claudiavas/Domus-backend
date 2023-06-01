@@ -122,7 +122,7 @@ userSchema.methods.generateJWT = function() {
   expirationDate.setDate(today.getDate() + 60);
 
   let payload = {
-    //id: this._id,
+    _id: this._id,
     name: this.name,
     email: this.email,
     algo:'HS256' 

@@ -8,10 +8,14 @@ const cors = require("cors")
 
 const port = process.env.PORT || 3005
 
-var indexRoutes = require('./routes/index');
-var usersRoutes = require('./routes/usersRoutes');
+var indexRoutes = require('./routes/index'); 
+var usersRoutes = require('./routes/usersRoutes'); 
 var housingRoutes = require('./routes/housingRoutes');
 var requestsRoutes = require('./routes/requestsRoutes');
+var ratingRoutes = require('./routes/ratingRoutes');
+var imageRoutes = require('./routes/imageRoutes'); 
+var realstateRoutes = require('./routes/realstateRoutes');
+
 
 var app = express();
 
@@ -28,31 +32,19 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(cors())
 
-require ('./mongo')
+// Conexion a BB DD.
+require ('./mongo');
 
-/*
-// Connect to database
-const mongoose = require("mongoose");
-
-//console.log("db user", process.env.DB_USER);
-//console.log("db password", process.env.DB_PASSWORD);
-
-const mongoDB = "mongodb+srv://" + process.env.DB_USER + ":" + process.env.DB_PASSWORD + "@" + process.env.DB_SERVER + "/" + process.env.DB_NAME + "?retryWrites=true&w=majority";
-//console.log("mongoDB",mongoDB);
-async function main() {
-  await mongoose.connect(mongoDB);
-}
-main().catch(err => console.log(err));*/
 
 // Load routes
 app.use('/', indexRoutes);
 app.use('/users', usersRoutes);
 app.use('/api/housing', housingRoutes);
 app.use('/api/requests', requestsRoutes);
+app.use('/api/realstate', realstateRoutes);
+app.use('/api/rating', ratingRoutes);
+app.use('/api/image', imageRoutes);
 
-
-//const index = require("./routes/index")
-//app.use("/housing", index)
 
 app.get('/', (req, res) => {
   res.send('Hello World!');

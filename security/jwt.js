@@ -54,6 +54,7 @@ authRouter.post("/register", async (req, res) => {
 
 authRouter.post("/login", async (req, res) => {
   const { email, password } = req.body;
+  console.log(req.body);
   // * Validate, email and password were provided in the request
   if (!email || !password) {
     return res
@@ -77,7 +78,7 @@ authRouter.post("/login", async (req, res) => {
       user: {
         email: foundUser.email,
         name: foundUser.name,
-        id: foundUser._id,
+        _id: foundUser._id,
       },
     });
   } catch (err) {
@@ -91,7 +92,7 @@ const jwtMiddleware = (req, res, next) => {
   // Recogemos el header "Authorization". Sabemos que viene en formato "Bearer XXXXX...",
   // así que nos quedamos solo con el token y obviamos "Bearer "
   const authHeader = req.headers["authorization"];
-
+  console.log('Authheader',authHeader);
   if (!authHeader)
     return res.status(401).json({ error: "Unauthorized MISSING HEADER" });
   const token = authHeader.split(" ")[1];
