@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 const requestsSchema = new mongoose.Schema({
  
-  realstate: {
+  realState: {
     _id: { type: Number },
     },
   

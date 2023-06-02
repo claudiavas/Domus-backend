@@ -37,7 +37,7 @@ const userSchema = new Schema({
   },
   zip_code: {
     type: Number,
-    required: true,
+   // required: true,
     min: 0
   },
   telephone: {
@@ -56,8 +56,8 @@ const userSchema = new Schema({
     type: String,
     required: true
   },
-  date_register: {
-    type: Date,
+  suscription: {
+    type: Boolean,
     default: null
   },
   observations: {
@@ -71,14 +71,16 @@ const userSchema = new Schema({
   tipo_usuario: {
     type: String,
     enum: ['AGENTE', 'INMOBILIARIA', 'CLIENTE'],
-    required: true
+    //required: true
   },
   foto_perfil: {
     type: String,
     default: ''
   },
   deleteAt: {
-    type: Date
+    type: Date,
+    default: null,
+
   },
 },
 

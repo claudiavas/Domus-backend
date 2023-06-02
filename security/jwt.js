@@ -11,7 +11,7 @@ authRouter.post("/register", async (req, res) => {
   console.log(req.body);
   // * Make sure request has the email
   if (!email) {
-    return res.status(400).json({ error: { register: "Email not received" } });
+    return res.status(400).json({ error: { result: "Email not received" } });
   }
 
 /** Preparar para utilizar los datos desde el controller Users */  
@@ -20,17 +20,17 @@ authRouter.post("/register", async (req, res) => {
   if (existingUser) {
     return res
       .status(400)
-      .json({ error: { email: "Email already registered" } });
+      .json({ error: { result: "Email already registered" } });
   } else {
     const newUser = new User({
       email: data.email,
       password: data.password,
       name: data.name,
       surname: data.surname,
-      identification: data.identification,
+      /* identification: data.identification,
       zip_code: data.zip_code,
       id_realstate: data.id_realstate,
-      tipo_usuario: "AGENTE",
+      tipo_usuario: "AGENTE", */
     });
     const savedUser = await newUser.save();
     if (savedUser) {
@@ -45,7 +45,7 @@ authRouter.post("/register", async (req, res) => {
     } else {
       return res
         .status(500)
-        .json({ error: { firstName: "Error creating new User :(", err } });
+        .json({ error: { result: "Error creating new User :(", err } });
     }
   }
 });
@@ -58,18 +58,18 @@ authRouter.post("/login", async (req, res) => {
   if (!email || !password) {
     return res
       .status(400)
-      .json({ error: { login: "Missing email or password" } });
+      .json({ error: { result: "Missing email or password" } });
   }
   try {
     const foundUser = await User.findOne({ email });
     if (!foundUser) {
       return res
         .status(400)
-        .json({ error: { email: "User not found, please Register" } });
+        .json({ error: { result: "User not found, please Register" } });
     }
     // * Validate password with bcrypt library
     if (!foundUser.comparePassword(password)) { 
-      return res.status(400).json({ error: { password: "Invalid Password" } });
+      return res.status(400).json({ error: { result: "Invalid Password" } });
     }
     // * if everything is ok, return the new token and user data
     return res.status(200).json({
@@ -83,7 +83,7 @@ authRouter.post("/login", async (req, res) => {
   } catch (err) {
     return res
       .status(500)
-      .json({ error: { register: "Error Login in :(", error: err.message } });
+      .json({ error: { result: "Error Login in :(", error: err.message } });
   }
 });
 
