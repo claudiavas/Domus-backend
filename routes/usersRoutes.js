@@ -13,7 +13,7 @@ const { jwtMiddleware, authRouter} = require("../security/jwt")
 /* login */
   router.post("/login", jwtMiddleware, authRouter)
 
-/* */
+/* me Comprueba el token del usuario si es correcto */
   router.get("/me", userController.meUser)
 /*router.post('/register', function(req, res, next) {
   const { name, email, password  } = req.body;
