@@ -6,11 +6,7 @@ const secret = process.env.JWT_SECRET;
 const Schema = mongoose.Schema;
 
 const userSchema = new Schema({
-/*  id: {
-    type: Number,
-    required: true,
-    unique: true
-  }, ya esta en la BBDD por defecto _id tiene sentido duplicarlo?*/
+
   identification: {
     type: String,
 //    required: true
@@ -21,7 +17,7 @@ const userSchema = new Schema({
   },
   surname: {
     type: String,
-    default: null
+    require: true
   },
   address: {
     type: String,

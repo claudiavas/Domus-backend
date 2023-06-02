@@ -86,7 +86,7 @@ const getHouse = (req, res) => {
 module.exports = {
   getHouse,
   addHouse,
-  // deleteHouse,
   // updateHouse,
+  // deleteHouse,
   // permanentDelete
 };
