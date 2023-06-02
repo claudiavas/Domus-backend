@@ -4,8 +4,8 @@ const generalRouter = express.Router();
 const userRouter = require('./usersRoutes')
 const { jwtMiddleware, authRouter} = require("../security/jwt")
 
-generalRouter.use("/", authRouter);
-generalRouter.use("/user",jwtMiddleware, userRouter)
+// generalRouter.use("/", authRouter);
+// generalRouter.use("/user",jwtMiddleware, userRouter);
 
 
 
