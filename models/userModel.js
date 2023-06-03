@@ -21,7 +21,7 @@ const userSchema = new Schema({
   },
   surname: {
     type: String,
-    default: null
+    required: true
   },
   address: {
     type: String,
