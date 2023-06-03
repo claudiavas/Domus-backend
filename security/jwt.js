@@ -7,11 +7,27 @@ const authRouter = express.Router();
 
 authRouter.post("/register", async (req, res) => {
   const email = req.body.email;
+  const password = req.body.password;
+  const name = req.body.name;
+  const surname = req.body.surname;
   const data = req.body;
+
   console.log(req.body);
   // * Make sure request has the email
   if (!email) {
-    return res.status(400).json({ error: { result: "Email not received" } });
+    return res.status(400).json({ error: { result: "Ingresa tu email" } });
+  }
+
+  if (!name) {
+    return res.status(400).json({ error: { result: "Ingresa tu nombre" } });
+  }
+
+  if (!surname) {
+    return res.status(400).json({ error: { result: "Ingresa tu apellido" } });
+  }
+
+  if (!password) {
+    return res.status(400).json({ error: { result: "Ingresa tu password" } });
   }
 
 /** Preparar para utilizar los datos desde el controller Users */  
@@ -20,17 +36,14 @@ authRouter.post("/register", async (req, res) => {
   if (existingUser) {
     return res
       .status(400)
-      .json({ error: { result: "Email already registered" } });
+      .json({ error: { result: "Ya existe una cuenta con este email" } });
   } else {
     const newUser = new User({
       email: data.email,
       password: data.password,
       name: data.name,
       surname: data.surname,
-      /* identification: data.identification,
-      zip_code: data.zip_code,
-      id_realstate: data.id_realstate,
-      tipo_usuario: "AGENTE", */
+    
     });
     const savedUser = await newUser.save();
     if (savedUser) {
@@ -42,10 +55,11 @@ authRouter.post("/register", async (req, res) => {
           id: savedUser._id,
         },
       });
+    
     } else {
       return res
         .status(500)
-        .json({ error: { result: "Error creating new User :(", err } });
+        .json({ error: { result: "Error al crear un nuevo usuario :(", err } });
     }
   }
 });
@@ -56,21 +70,26 @@ authRouter.post("/login", async (req, res) => {
   const { email, password } = req.body;
   console.log(req.body);
   // * Validate, email and password were provided in the request
-  if (!email || !password) {
+  if (!email) {
     return res
       .status(400)
-      .json({ error: { result: "Missing email or password" } });
+      .json({ error: { result: "Ingresa tu email" } });
+  }
+  if (!password) {
+    return res
+      .status(400)
+      .json({ error: { result: "Ingresa tu password" } });
   }
   try {
     const foundUser = await User.findOne({ email });
     if (!foundUser) {
       return res
         .status(400)
-        .json({ error: { result: "User not found, please Register" } });
+        .json({ error: { result: "Usuario no encontrado, por favor regístrate" } });
     }
     // * Validate password with bcrypt library
     if (!foundUser.comparePassword(password)) { 
-      return res.status(400).json({ error: { result: "Invalid Password" } });
+      return res.status(400).json({ error: { result: "Password inválido" } });
     }
     // * if everything is ok, return the new token and user data
     return res.status(200).json({
@@ -84,7 +103,7 @@ authRouter.post("/login", async (req, res) => {
   } catch (err) {
     return res
       .status(500)
-      .json({ error: { result: "Error Login in :(", error: err.message } });
+      .json({ error: { result: "Error al hacer Login :(", error: err.message } });
   }
 });
 
