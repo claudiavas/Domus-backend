@@ -88,5 +88,6 @@ module.exports = {
   addHouse,
   // updateHouse,
   // deleteHouse,
+  // softDeleteHouse,
   // permanentDelete
 };
