@@ -198,6 +198,7 @@ const housingSchema = new Schema({
  
     deletedAt: {
       type: Date,
+      default: null,
     }
  
   },
