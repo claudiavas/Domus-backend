@@ -6,7 +6,7 @@ const agentId = new ObjectId()
 
 const addRating = (req,res) => {
     const newRating = new Rating({
-        raitingAuthor:req.body.raitingAuthor,
+        ratingAuthor:req.body.ratingAuthor,
         valuedAgent:req.body.valuedAgent,
         nameAuthor:req.body.nameAuthor,
         nameAgent:req.body.nameAgent,

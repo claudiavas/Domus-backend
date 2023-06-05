@@ -17,7 +17,7 @@ const userSchema = new Schema({
   },
   surname: {
     type: String,
-    require: true
+    required: true
   },
   address: {
     type: String,

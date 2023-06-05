@@ -11,7 +11,7 @@ const { jwtMiddleware, authRouter} = require("../security/jwt")
   router.post('/register', authRouter);
 
 /* login */
-  router.post("/login", jwtMiddleware, authRouter)
+  router.post("/login", authRouter)
 
 /* me Comprueba el token del usuario si es correcto */
   router.get("/me", userController.meUser)
