@@ -123,7 +123,7 @@ const updateHouse = async (req, res, next) => {
     const updatedHouse = await Housing.findByIdAndUpdate(HousingId, updates, options);
 
     if (!updatedHousing) {
-      return res.status(404).json.({ msg: "No se encontro la vivienda" })
+      return res.status.json(404).json({msg: 'No se encontro la vivienda'});
     }
     res.status(200).json({ updatedHousing });  // Devuelve la vivienda actualizada
   } catch (error) {
