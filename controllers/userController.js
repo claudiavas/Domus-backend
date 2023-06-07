@@ -2,7 +2,6 @@ const user = require ('../models/userModel');
 const jwt = require("jsonwebtoken");
 const mySecret = process.env.JWT_SECRET;
 const { objectId } = require ('mongodb');
-//const realStateId = new Objectid ();
 
 
 
@@ -65,7 +64,7 @@ const getUser = (req,res) => {
         user.findById(req.params.userId)
             .then ((user) => {
                 if (user === null ) {
-                    res.status(400).send({ msg: 'No se ha encontrado el user/Corredor '});
+                    res.status(400).send({ msg: 'No se ha encontrado el usuario '});
                 } else {
                     res.status(200).send(user);
                 }
