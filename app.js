@@ -9,9 +9,9 @@ const cors = require("cors")
 const port = process.env.PORT || 3005
 
 var indexRoutes = require('./routes/index'); 
-var usersRoutes = require('./routes/usersRoutes'); 
+var userRoutes = require('./routes/userRoutes'); 
 var housingRoutes = require('./routes/housingRoutes');
-var requestsRoutes = require('./routes/requestsRoutes');
+var requestRoutes = require('./routes/requestRoutes');
 var ratingRoutes = require('./routes/ratingRoutes');
 var imageRoutes = require('./routes/imageRoutes'); 
 var realstateRoutes = require('./routes/realstateRoutes');
@@ -38,9 +38,9 @@ require ('./mongo');
 
 // Load routes
 app.use('/', indexRoutes);
-app.use('/users', usersRoutes);
+app.use('/user', userRoutes);
 app.use('/api/housing', housingRoutes);
-app.use('/api/requests', requestsRoutes);
+app.use('/api/request', requestRoutes);
 app.use('/api/realstate', realstateRoutes);
 app.use('/api/rating', ratingRoutes);
 app.use('/api/image', imageRoutes);

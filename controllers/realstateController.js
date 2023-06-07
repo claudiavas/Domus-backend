@@ -1,4 +1,4 @@
-const Realstate = require('../models/realstateModel');
+const Realstate = require('../models/realEstateModel');
 
 const { ObjectId } = require('mongodb');
 

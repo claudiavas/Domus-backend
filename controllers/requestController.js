@@ -1,4 +1,4 @@
-const Request = require('../models/requestsModel');
+const Request = require('../models/requestModel');
 
 const addRequest = (req, res) => {
   const newRequest = new Request({
@@ -83,11 +83,11 @@ const getRequest = (req, res) => {
     }
 
     Request.find(filter)
-      .then((requests) => {
-        if (requests.length === 0) {
+      .then((request) => {
+        if (request.length === 0) {
           res.status(404).send({ msg: 'No se han encontrado solicitudes' });
         } else {
-          res.status(200).send(requests);
+          res.status(200).send(request);
         }
       })
       .catch((error) => res.status(400).send(error));

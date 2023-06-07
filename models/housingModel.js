@@ -2,17 +2,16 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema
 
 const housingSchema = new Schema({
-    realState: { 
+    
+    realEstate: { 
       type: mongoose.Schema.Types.ObjectID,
-      ref: "realState"
+      ref: "realEstate"
       },
 
-    // desactivado hasta crear tabla
-    // agent: { 
-    //  type: mongoose.Schema.Types.ObjectID,
-    //  ref: "agents",
-    //  required: true
-    // },
+    realEstate: { 
+      type: mongoose.Schema.Types.ObjectID,
+      ref: "realEstate"
+      },
 
     type: { 
       type: String,
@@ -146,7 +145,7 @@ const housingSchema = new Schema({
 
     kitchenEquipment: {
       type: String,
-      enum: ["standard_equipment", "semi-equipped", "fully-equipped"]
+      enum: ["standard_equipment", "semi_equipped", "fully_equipped"]
     },
 
     closets: {
@@ -191,9 +190,9 @@ const housingSchema = new Schema({
 
     status: {
       type: String,
-      default: "Active",
+      default: "active",
       required: true,
-      enum: ["Active", "Selled", "Rented", "Inactive", "Deleted"]
+      enum: ["active", "selled", "rented", "inactive", "deleted"]
     },
  
     deletedAt: {
@@ -206,4 +205,4 @@ const housingSchema = new Schema({
   timestamps:true}
   );
   
-  module.exports = mongoose.model("housing", housingSchema);
+  module.exports = mongoose.model("Housing", housingSchema);

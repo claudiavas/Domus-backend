@@ -7,36 +7,57 @@ const Schema = mongoose.Schema;
 
 const userSchema = new Schema({
 
-  identification: {
+  documentType: {
     type: String,
-//    required: true
+    enum: ['DNI', 'NIE'],
   },
+
+  documentNumber: {
+    type: String,
+  },
+
+  agentRegistrationNumber: {
+    type: String,
+  },
+
+  agentRegistrationProvince: {
+    type: String,
+  },
+
   name: {
     type: String,
     required: true
   },
+
   surname: {
     type: String,
     required: true
   },
-  address: {
+  
+  mainOfficeCountry: {
     type: String,
-  },
-  city: {
+    required: true,
+    default: "Spain",
+    },
+
+  mainOfficeProvince: {
+    type: mongoose.Schema.Types.ObjectId,
+    required: true,
+    ref: 'Provinces',
+    },
+
+  mainOfficeZipCode: {
     type: String,
-  },
-  province: {
-    type: String,
+    required: true,
+    default: "Spain",
+    },
+
+  telephone1: {
+    type: Number,
   },
 
-  zip_code: {
+  telephone2: {
     type: Number,
-   // required: true,
-    min: 0
-  },
-  telephone: {
-    type: Number,
-    min: 0,
   },
 
   email: {
@@ -49,27 +70,42 @@ const userSchema = new Schema({
     type: String,
     required: true
   },
+
   subscription: {
     type: Boolean,
     default: "false"
   },
-  observations: {
+
+  profileSummary: {
     type: String,
-    default: ''
   },
-  id_realstate: {
-    type: Number
-  },
-  tipo_usuario: {
+
+  realEstate: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'RealEstate',
+    },
+  
+  userType: {
     type: String,
-    enum: ['AGENTE', 'INMOBILIARIA', 'CLIENTE'],
+    enum: ['Agent', 'RealState', 'Client'],
   },
   
-  foto_perfil: {
+  profilePicture: {
     type: String,
-    default: ''
   },
-  deleteAt: {
+
+  status: {
+    type: String,
+    default: "Active",
+    enum: ["Active", "Inactive", "Banned", "Deleted"]
+  },
+
+  bannedReason: {
+    type: String,
+    requiered: true,
+  },
+
+  deletedAt: {
     type: Date,
   },
 },

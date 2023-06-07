@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const requestsSchema = new mongoose.Schema({
+const requestSchema = new mongoose.Schema({
  
   realState: {
     _id: { type: Number },
@@ -12,13 +12,13 @@ const requestsSchema = new mongoose.Schema({
   
   type: { 
     type: String, 
-    enum: ['Piso', 'Ático', 'Duplex', 'Casa', 'Chalet', 'Otros'] 
+    enum: ["apartment", "penthouse", "duplex", "house", "chalet", "other"] 
     },
   
   transaction: { 
     type: String, 
     required: true, 
-    enum: ['Compra', 'Alquiler', 'Alquiler Vacacional'] 
+    enum: ["sale", "rent", "vacation_rentals"]
     },
   
   country: { 
@@ -57,7 +57,7 @@ const requestsSchema = new mongoose.Schema({
   
   currency: { 
     type: String, 
-    enum: ['EUR', 'DOL', 'BITCOINS'] 
+    enum: ['EUR', 'DOL'] 
     },
   
   minPrice: { 
@@ -70,17 +70,17 @@ const requestsSchema = new mongoose.Schema({
 
   floorLevel: { 
     type: String, 
-    enum: ['Última Planta', 'Plantas Intermedias', 'Bajo'] 
+    enum: ["Top_floor", "Intermediate_floor", "Ground_floor"]
     },
   
   facing: { 
     type: String, 
-    enum: ['Norte', 'Sur', 'Este', 'Oeste'] 
+    enum: ["North", "South", "East", "West"] 
     },
   
   propertyAge: {
     type: String,
-    enum: ['Estreno', 'Hasta 5 años', '6 a 10 años', '11-20 años', 'Más de 20 años'],
+    enum: ["New", "Up_to_5 years", "6_to_10 years", "11_to_20 years", "More_than_20 years"],
     },
   
   rooms: { 
@@ -103,17 +103,17 @@ const requestsSchema = new mongoose.Schema({
   
   condition: { 
     type: String, 
-    enum: ['Obra Nueva', 'Buen Estado', 'A reformar'] 
+    enum: ["new", "good_condition", "to_renovate"] 
     },
   
   furnished: { 
     type: String, 
-    enum: ['Sin amoblar', 'Semi amoblado', 'Amoblado'] 
+    enum: ["unfurnished", "semifurnished", "furnished"] 
     },
   
   kitchenEquipment: {
     type: String,
-    enum: ['Básico', 'Semi equipado', 'Completo'],
+    enum: ["standard_equipment", "semi_equipped", "fully_equipped"],
     },
   
   closets: { 
@@ -156,9 +156,17 @@ const requestsSchema = new mongoose.Schema({
     type: Boolean 
     },
   
-  deletedAt: { 
-    type: Date 
+  status: {
+    type: String,
+    default: "active",
+    required: true,
+    enum: ["active", "fullfilled", "inactive", "deleted"]
+    },
+ 
+  deletedAt: {
+    type: Date,
     }
+
 },
 
     {
@@ -167,4 +175,4 @@ const requestsSchema = new mongoose.Schema({
 
     )
     
-    module.exports = mongoose.model("requests", requestsSchema);
+    module.exports = mongoose.model("Request", requestSchema);

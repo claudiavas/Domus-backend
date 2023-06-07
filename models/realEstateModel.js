@@ -1,89 +1,98 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-const newLocal = false;
+
 const realEstateSchema = new Schema({
-  id_realstate: {
-    type: Number,
-    required: true,
-    unique: true
-  },
-  Cif: {
-    type: String,
-    required: true
-  },
-  status: {
-    type: String,
-    default: null
-  },
-  name: {
-    type: String,
-    required: true
-  },
-  description: {
-    type: String,
-    default: null
-  },
-  country: {
+  
+  NIF: {
     type: String,
     required: true,
-    default: 'spain'
+    length: 9
   },
-  province: {
-    type: String,
-    default: null
-  },
-  municipity: {
-    type: String,
-    default: null
-  },
-  zip_code: {
+  
+  businessName: {
     type: String,
     required: true
   },
-  telephone: {
+
+  profileSummary: {
+    type: String,
+  },
+
+  mainOfficeAddress: {
+    type: String,
+    required: true,
+    default: "Spain",
+    },
+    
+  mainOfficeCountry: {
+    type: String,
+    required: true,
+    default: "Spain",
+    },
+
+  mainOfficeProvince: {
+    type: mongoose.Schema.Types.ObjectId,
+    required: true,
+    ref: 'Provinces',
+    },
+
+  mainOfficeZipCode: {
+    type: String,
+    required: true,
+    default: "Spain",
+    },
+    
+  telephone1: {
     type: Number,
     min: 0,
     default: null
   },
+
+  telephone2: {
+    type: Number,
+    min: 0,
+    default: null
+  },
+  
   email: {
     type: String,
-    default: null,
     match: /^\S+@\S+\.\S+$/
   },
+
   web: {
     type: String,
-    default: null
   },
-  date_register: {
-    type: Date,
-    default: null
-  },
+
   rent: {
     type: Boolean,
-    default: false
   },
+
   buy_sell: {
     type: Boolean,
-    default: false
   },
+
   holiday_rental : {
     type: Boolean,
-    default: false
   },
+
   logo: {
     type: String,
-    default: null
   },
-  publication_date: {
-    type: Date,
-    required: true
+
+  status: {
+    type: String,
+    default: "Active",
+    required: true,
+    enum: ["Active", "Inactive", "Banned", "Deleted"]
   },
-  modifiedAt: {
-    type: Date,
-    required: true
+
+  bannedReason: {
+    type: String,
+    requiered: true,
   },
-  deleteAt: {
+
+  deletedAt: {
     type: Date,
     default: null
   }

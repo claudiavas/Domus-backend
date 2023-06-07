@@ -1,7 +1,8 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema
 
-const roadTypesSchema = new Schema({
+const roadTypeSchema = new Schema({
+    
     roadType: { 
       type: String,
       required: true
@@ -9,4 +10,4 @@ const roadTypesSchema = new Schema({
     },
   );
   
-  module.exports = mongoose.model("roadTypes", roadTypesSchema);
+  module.exports = mongoose.model("RoadType", roadTypeSchema);

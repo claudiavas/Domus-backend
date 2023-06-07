@@ -1,4 +1,4 @@
-const Image = require('../models/imageModel.js');
+const Image = require('../models/housingImagesModel.js');
 
 const { ObjectId } = require('mongodb');
 const imageId = new ObjectId()

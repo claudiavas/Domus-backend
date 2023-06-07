@@ -88,11 +88,11 @@ const getUser = (req,res) => {
 
         console.log(req.query.status, filter);
         user.find(filter)
-            .then ((users) => {
-                if (users.length === 0) {
+            .then ((user) => {
+                if (user.length === 0) {
                     res.status(404).send({msg: 'No se han encontrado Usuarios' }) 
                 } else {
-                    res.status(200).send(users);
+                    res.status(200).send(user);
                 }
             })
             .catch ((error)=> res.status(400).send(error));
