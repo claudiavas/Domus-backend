@@ -47,6 +47,7 @@ const addHouse = (req,res) => {
     storage: req.body.storage,
     accessible: req.body.accessible,
     status: req.body.status,
+    isDelete: req.body.isDelete, 
     deletedAt: req.body.deletedAt
   });
 
@@ -83,46 +84,26 @@ const getHouse = (req, res) => {
     .catch((error) => res.status(400).send(error));
 };
 
-const deleteHouse =  (req,res) => {
-    house.findandupdate(
-        {
-            _id: req.params.houseid,
-           // status: { $ne: 'DELETED'}
-        }
-        ,
-       /*
-        {
-            status: "DELETED",
-            deletedAt: new Date()
-        },
-        */
-        {
-            timestamp: false
-        }
-    )
-    .then (houseDoc => {
-        console.log(houseDoc)
-        if (houseDoc === null) {
-            res.status(404).send({msg: "No se ha encontrado la vivienda" })
-        } else {
-            res.status(200).send({msg:"vivienda eliminada"})
-        }
-    })
-    .catch(error=> {
-        switch (error.name) {
-            case 'CastError':
-                res.status(400).send({msg: 'Formato de id inválido'})
-                break;
-            default:
-                res.status(400).send(error)    
-        }
-    })
-}
+// soft Delete house
+    
+const deleteHouse = async (req, res, next) => {
+   try {
+     const housingId = req.params.housingId;
+     const housing = await Housing.findByIdAndUpdate(HousingId, {isDeleted: true});
+    if (!housing){
+      return res.status(404).json({ msg: 'No se encontro la vivienda'});
+    }
+    res.status(200).json({ msg: "La vivienda ha sido eliminada exitosamente"})
+   } catch (error) {
+    res.status(500).json({msg: error.message});
+   }
+  };
 
-const permanentDelete = async (req, res) => {
+// Permanent Delete house 
+const permanentDeleteHouse = async (req, res) => {
   try {
     const housingId = req.param.housingId;
-    const housing = await  Housing.findByIdAndDelete( housingId);
+    const housing = await  Housing.findByIdAndDelete(housingId);
 
     if (!housing) {
       return res.status.json(404).json({msg: 'No se encontro la vivienda'});
@@ -132,12 +113,28 @@ const permanentDelete = async (req, res) => {
     res.status(500).json({msg: error.message});
   }
 }
+// Update House 
+const updateHouse = async (req, res, next) => {
+  try {
+    const housingId = req.params._id;
+    const updates = req.body;
+    const options = { new: true};
 
+    const updatedHouse = await Housing.findByIdAndUpdate(HousingId, updates, options);
+
+    if (!updatedHousing) {
+      return res.status(404).json.({ msg: "No se encontro la vivienda" })
+    }
+    res.status(200).json({ updatedHousing });  // Devuelve la vivienda actualizada
+  } catch (error) {
+    res.status(500).json({msg: error.message });
+  }
+};
 
 module.exports = {
   getHouse,
   addHouse,
   deleteHouse,
-  // updateHouse,
-  permanentDelete
+  permanentDeleteHouse,
+  updateHouse,
 };

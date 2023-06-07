@@ -195,7 +195,10 @@ const housingSchema = new Schema({
       required: true,
       enum: ["Active", "Selled", "Rented", "Inactive", "Deleted"]
     },
- 
+    isdeleted: {
+      type: Boolean,
+      default: false,
+    },
     deletedAt: {
       type: Date,
       default: null,
