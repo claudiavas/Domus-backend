@@ -10,41 +10,49 @@ authRouter.post("/register", async (req, res) => {
   const password = req.body.password;
   const name = req.body.name;
   const surname = req.body.surname;
+  const subscription = req.body.suscription;
   const data = req.body;
 
   console.log(req.body);
+
   // * Make sure request has the email
   if (!email) {
     return res.status(400).json({ error: { result: "Ingresa tu email" } });
   }
 
-  if (!name) {
-    return res.status(400).json({ error: { result: "Ingresa tu nombre" } });
-  }
-
-  if (!surname) {
-    return res.status(400).json({ error: { result: "Ingresa tu apellido" } });
-  }
-
-  if (!password) {
-    return res.status(400).json({ error: { result: "Ingresa tu password" } });
-  }
-
-/** Preparar para utilizar los datos desde el controller Users */  
+  // * Check if the user already exists
   const existingUser = await User.findOne({ email: email });
-  // * If the user is found, return an error because there is already a user registered
   if (existingUser) {
     return res
       .status(400)
       .json({ error: { result: "Ya existe una cuenta con este email" } });
-  } else {
-    const newUser = new User({
-      email: data.email,
-      password: data.password,
-      name: data.name,
-      surname: data.surname,
-    
-    });
+  }
+
+  // * Validate name
+  if (!name) {
+    return res.status(400).json({ error: { result: "Ingresa tu nombre" } });
+  }
+
+  // * Validate surname
+  if (!surname) {
+    return res.status(400).json({ error: { result: "Ingresa tu apellido" } });
+  }
+
+  // * Validate password
+  if (!password) {
+    return res.status(400).json({ error: { result: "Ingresa tu password" } });
+  }
+
+  // Create a new user
+  const newUser = new User({
+    email: data.email,
+    password: data.password,
+    name: data.name,
+    surname: data.surname,
+    subscription: data.subscription,
+  });
+
+  try {
     const savedUser = await newUser.save();
     if (savedUser) {
       return res.status(201).json({
@@ -55,12 +63,13 @@ authRouter.post("/register", async (req, res) => {
           id: savedUser._id,
         },
       });
-    
     } else {
       return res
         .status(500)
         .json({ error: { result: "Error al crear un nuevo usuario :(", err } });
     }
+  } catch (error) {
+    return res.status(500).json({ error: { result: "Error al crear un nuevo usuario :(", error: error.message } });
   }
 });
 
@@ -75,11 +84,7 @@ authRouter.post("/login", async (req, res) => {
       .status(400)
       .json({ error: { result: "Ingresa tu email" } });
   }
-  if (!password) {
-    return res
-      .status(400)
-      .json({ error: { result: "Ingresa tu password" } });
-  }
+  
   try {
     const foundUser = await User.findOne({ email });
     if (!foundUser) {
@@ -88,6 +93,12 @@ authRouter.post("/login", async (req, res) => {
         .json({ error: { result: "Usuario no encontrado, por favor regístrate" } });
     }
     // * Validate password with bcrypt library
+    if (!password) {
+      return res
+        .status(400)
+        .json({ error: { result: "Ingresa tu password" } });
+    }
+
     if (!foundUser.comparePassword(password)) { 
       return res.status(400).json({ error: { result: "Password inválido" } });
     }

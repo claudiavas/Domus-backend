@@ -21,16 +21,14 @@ const userSchema = new Schema({
   },
   address: {
     type: String,
-    default: null
   },
   city: {
     type: String,
-    default: null
   },
   province: {
     type: String,
-    default: null
   },
+
   zip_code: {
     type: Number,
    // required: true,
@@ -39,11 +37,10 @@ const userSchema = new Schema({
   telephone: {
     type: Number,
     min: 0,
-    default: null
   },
+
   email: {
     type: String,
-    default: null,
     match: /^\S+@\S+\.\S+$/,
     unique: true,
     trim: true
@@ -52,31 +49,28 @@ const userSchema = new Schema({
     type: String,
     required: true
   },
-  suscription: {
+  subscription: {
     type: Boolean,
-    default: null
+    default: "false"
   },
   observations: {
     type: String,
     default: ''
   },
   id_realstate: {
-    type: Number,
-//    required: true
+    type: Number
   },
   tipo_usuario: {
     type: String,
     enum: ['AGENTE', 'INMOBILIARIA', 'CLIENTE'],
-    //required: true
   },
+  
   foto_perfil: {
     type: String,
     default: ''
   },
   deleteAt: {
     type: Date,
-    default: null,
-
   },
 },
 
