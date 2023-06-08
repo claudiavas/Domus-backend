@@ -3,6 +3,7 @@ const Image = require('../models/housingImagesModel.js');
 const { ObjectId } = require('mongodb');
 const imageId = new ObjectId()
 
+//Función para añadir una imagen a una vivienda
 
 const addImage = (req,res) => {
     const newRating = new Image({
@@ -26,6 +27,8 @@ const addImage = (req,res) => {
         }
       });
   };
+
+// Función para obtener la imagen de una vivienda
 
   const getImage = (req, res) => {
     if (req.params.imageId) {
@@ -68,10 +71,69 @@ const addImage = (req,res) => {
   }
 };
 
+// Función para actualizar una imagen asociada a una vivienda
+const updateImage = async (req, res) => {
+  const { imageId } = req.params; // Obtener el ID de la imagen de los parámetros de la solicitud
+  const { newImageData } = req.body; // Obtener los datos de la nueva imagen del cuerpo de la solicitud
+
+  try {
+    const image = await HousingImages.findById(imageId); // Buscar la imagen por su ID
+
+    if (!image) {
+      return res.status(404).json({ error: 'Imagen no encontrada' });
+    }
+
+    image.set(newImageData); // Actualizar los datos de la imagen con los nuevos datos
+    await image.save(); // Guardar los cambios en la imagen
+
+    res.status(200).json({ message: 'Imagen actualizada correctamente', updatedImage: image });
+  } catch (error) {
+    res.status(500).json({ error: 'Error al actualizar la imagen' });
+  }
+};
+
+// Función para eliminar permanentemente una imagen asociada a una vivienda
+const permanentDeleteImage = async (req, res) => {
+  const { imageId } = req.params; // Obtener el ID de la imagen de los parámetros de la solicitud
+
+  try {
+    const image = await HousingImages.findById(imageId); // Buscar la imagen por su ID
+
+    if (!image) {
+      return res.status(404).json({ error: 'Imagen no encontrada' });
+    }
+
+    await image.remove(); // Eliminar permanentemente la imagen
+
+    res.status(200).json({ message: 'Imagen eliminada permanentemente correctamente' });
+  } catch (error) {
+    res.status(500).json({ error: 'Error al eliminar permanentemente la imagen' });
+  }
+};
+
+// Función para eliminar una imagen asociada a una vivienda
+const deleteImage = async (req, res) => {
+  const { imageId } = req.params; // Obtener el ID de la imagen de los parámetros de la solicitud
+
+  try {
+    const image = await HousingImages.findById(imageId); // Buscar la imagen por su ID
+
+    if (!image) {
+      return res.status(404).json({ error: 'Imagen no encontrada' });
+    }
+
+    await image.remove(); // Eliminar la imagen
+
+    res.status(200).json({ message: 'Imagen eliminada correctamente' });
+  } catch (error) {
+    res.status(500).json({ error: 'Error al eliminar la imagen' });
+  }
+};
+
 module.exports = {
     getImage,
     addImage,
-    //deleteImage,
-    //updateImage,
-    //permanentDelete
+    deleteImage,
+    updateImage,
+    permanentDeleteImage
   }
