@@ -117,7 +117,7 @@ const deleteRating = async (req, res) => {
 };
 
 // Función para eliminar permanentemente una calificación
-const deletePermanentRating = async (req, res) => {
+const permanentDeleteRating = async (req, res) => {
   const { ratingId } = req.params; // Obtener el ID de la calificación de los parámetros de la solicitud
 
   try {
