@@ -5,7 +5,7 @@ const { objectId } = require ('mongodb');
 
 
 
-
+// Me user
 
 const meUser = (req, res) => {
     const token = req.headers.authorization;
@@ -22,7 +22,7 @@ const meUser = (req, res) => {
     res.json({info: decodedToken })
 }
 
-
+// Add New User
 
 const addUser= (req, res) => {
     const newUser = new User({
@@ -58,6 +58,8 @@ newUser
         }
     });
 };
+
+// Get user
 
 const getUser = (req,res) => {
     if (req.params.userId) {
