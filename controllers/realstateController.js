@@ -2,69 +2,138 @@ const Realstate = require('../models/realEstateModel');
 
 const { ObjectId } = require('mongodb');
 
+// Función para agregar una inmobiliaria
+const addRealstate = async (req, res) => {
+  const {
+    NIF,
+    businessName,
+    profileSummary,
+    mainOfficeAddress,
+    mainOfficeCountry,
+    mainOfficeProvince,
+    mainOfficeZipCode,
+    telephone1,
+    telephone2,
+    email,
+    web,
+    rent,
+    buy_sell,
+    holiday_rental,
+    logo,
+    status,
+    bannedReason
+  } = req.body; // Obtener los datos de la inmobiliaria del cuerpo de la solicitud
 
+  try {
+    const realEstate = new RealEstate({
+      NIF,
+      businessName,
+      profileSummary,
+      mainOfficeAddress,
+      mainOfficeCountry,
+      mainOfficeProvince,
+      mainOfficeZipCode,
+      telephone1,
+      telephone2,
+      email,
+      web,
+      rent,
+      buy_sell,
+      holiday_rental,
+      logo,
+      status,
+      bannedReason
+    }); // Crear una nueva instancia de RealEstate
 
-const addRealstate = (req,res) => {
-  const newRealstate = new Realstate({
-    id_realstate: req.body.id_realstate,
-    Cif: req.body.Cif,
-    status: req.body.status,
-    name: req.body.name,
-    description: req.body.description,
-    country: req.body.country,
-    province: req.body.province,
-    municipality: req.body.municipality,
-    zip_code: req.body.zip_code,
-    telephone: req.body.telephone,
-    email: req.body.email,
-    web: req.body.web,
-    date_register: req.body.date_register,
-    rent: req.body.rent,
-    buy_sell: req.body.buy_sell,
-    holiday_rental: req.body.rental,
-    logo: req.body.logo,
-    publication_date: req.body.publication_date,
-    modifiedAt: req.body.modifiedAt,
-    deletedAt: req.body.deletedAt
-  });
+    await realEstate.save(); // Guardar la nueva inmobiliaria en la base de datos
 
-  newRealstate
-    .save()
-    .then((realstate) => res.status(200).send(realstate))
-    .catch((error) => {
-      console.log(error.code);
-      switch (error.code) {
-        case 11000:
-          res.status(400).send({ msg: 'La inmobiliaria ya existe' });
-          break;
-        default:
-          res.status(400).send(error);
-      }
-    });
+    res.status(201).json({ message: 'Inmobiliaria agregada correctamente', realEstate });
+  } catch (error) {
+    res.status(500).json({ error: 'Error al agregar la inmobiliaria' });
+  }
 };
 
-const getRealstate = (req, res) => {
-  let filter = {}; // Define the 'filter' variable with a default value
+// Función para obtener una inmobiliaria por su ID
+const getRealstate = async (req, res) => {
+  const { realEstateId } = req.params; // Obtener el ID de la inmobiliaria de los parámetros de la solicitud
 
-  if (req.query.status) {
-    filter.status = req.query.status;
+  try {
+    const realEstate = await RealEstate.findById(realEstateId); // Buscar la inmobiliaria por su ID
+
+    if (!realEstate) {
+      return res.status(404).json({ error: 'Inmobiliaria no encontrada' });
+    }
+
+    res.status(200).json({ realEstate });
+  } catch (error) {
+    res.status(500).json({ error: 'Error al obtener la inmobiliaria' });
   }
+};
 
-  Realstate.find(filter)
-    .then((realstates) => {
-      if (realstates.length === 0) {
-        res.status(404).send({ msg: 'No se han encontrado inmobiliaria' });
-      } else {
-        res.status(200).send(realstates);
-      }
-    })
-    .catch((error) => res.status(400).send(error));
+// Función para eliminar una inmobiliaria (soft delete)
+const deleteRealstate = async (req, res) => {
+  const { realEstateId } = req.params; // Obtener el ID de la inmobiliaria de los parámetros de la solicitud
+
+  try {
+    const deletedRealEstate = await RealEstate.findByIdAndUpdate(
+      realEstateId,
+      { deletedAt: new Date() },
+      { new: true }
+    ); // Buscar y marcar como eliminada la inmobiliaria por su ID
+
+    if (!deletedRealEstate) {
+      return res.status(404).json({ error: 'Inmobiliaria no encontrada' });
+    }
+
+    res.status(200).json({ message: 'Inmobiliaria eliminada correctamente', deletedRealEstate });
+  } catch (error) {
+    res.status(500).json({ error: 'Error al eliminar la inmobiliaria' });
+  }
+};
+
+// Función para actualizar una inmobiliaria
+const updateRealstate = async (req, res) => {
+  const { realEstateId } = req.params; // Obtener el ID de la inmobiliaria de los parámetros de la solicitud
+  const updateData = req.body; // Obtener los nuevos datos de la inmobiliaria del cuerpo de la solicitud
+
+  try {
+    const updatedRealEstate = await RealEstate.findByIdAndUpdate(
+      realEstateId,
+      updateData,
+      { new: true }
+    ); // Buscar y actualizar la inmobiliaria por su ID
+
+    if (!updatedRealEstate) {
+      return res.status(404).json({ error: 'Inmobiliaria no encontrada' });
+    }
+
+    res.status(200).json({ message: 'Inmobiliaria actualizada correctamente', updatedRealEstate });
+  } catch (error) {
+    res.status(500).json({ error: 'Error al actualizar la inmobiliaria' });
+  }
+};
+
+// Función para eliminar permanentemente una inmobiliaria
+const permanentDeleteRealstate = async (req, res) => {
+  const { realEstateId } = req.params; // Obtener el ID de la inmobiliaria de los parámetros de la solicitud
+
+  try {
+    const deletedRealEstate = await RealEstate.findByIdAndDelete(realEstateId); // Buscar y eliminar permanentemente la inmobiliaria por su ID
+
+    if (!deletedRealEstate) {
+      return res.status(404).json({ error: 'Inmobiliaria no encontrada' });
+    }
+
+    res.status(200).json({ message: 'Inmobiliaria eliminada permanentemente correctamente' });
+  } catch (error) {
+    res.status(500).json({ error: 'Error al eliminar permanentemente la inmobiliaria' });
+  }
 };
 
 module.exports = {
   getRealstate,
   addRealstate,
-  // deleteHouse,
-  // updateHouse,
-  // permanentDelete
+  deleteRealstate,
+  updateRealstate,
+  permanentDeleteRealstate,
 };
