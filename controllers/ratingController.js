@@ -3,18 +3,16 @@ const Rating = require('../models/ratingModel.js');
 const { ObjectId } = require('mongodb');
 const agentId = new ObjectId()
 
+//Función para añadir una calificación
 
 const addRating = (req,res) => {
     const newRating = new Rating({
-        ratingAuthor:req.body.ratingAuthor,
-        valuedAgent:req.body.valuedAgent,
-        nameAuthor:req.body.nameAuthor,
-        nameAgent:req.body.nameAgent,
+        evaluatedUser:req.body.evaluatedUser,
+        evaluatingUser:req.body.evaluatingUser,
         rating:req.body.rating,
-        title:req.body.title,
-        description:req.body.description,
-        date:req.body.date,
-             
+        commentBrief:req.body.commentBrief,
+        comment:req.body.comment,
+               
     });
   
     newRating
@@ -31,6 +29,8 @@ const addRating = (req,res) => {
         }
       });
   };
+
+//Función para obtener una calificación  
 
   const getRating = (req, res) => {
     if (req.params.ratingId) {
@@ -73,10 +73,70 @@ const addRating = (req,res) => {
   }
 };
 
+// Función para actualizar una calificación
+const updateRating = async (req, res) => {
+  const { ratingId } = req.params; // Obtener el ID de la calificación de los parámetros de la solicitud
+  const { rating, commentBrief, comment } = req.body; // Obtener los nuevos datos de la calificación del cuerpo de la solicitud
+
+  try {
+    const updatedRating = await Rating.findByIdAndUpdate(
+      ratingId,
+      { rating, commentBrief, comment },
+      { new: true }
+    ); // Buscar y actualizar la calificación por su ID
+
+    if (!updatedRating) {
+      return res.status(404).json({ error: 'Calificación no encontrada' });
+    }
+
+    res.status(200).json({ message: 'Calificación actualizada correctamente', updatedRating });
+  } catch (error) {
+    res.status(500).json({ error: 'Error al actualizar la calificación' });
+  }
+};
+
+// Función para eliminar una calificación (marcar como eliminada)
+const deleteRating = async (req, res) => {
+  const { ratingId } = req.params; // Obtener el ID de la calificación de los parámetros de la solicitud
+
+  try {
+    const deletedRating = await Rating.findByIdAndUpdate(
+      ratingId,
+      { deletedAt: new Date() },
+      { new: true }
+    ); // Buscar y marcar como eliminada la calificación por su ID
+
+    if (!deletedRating) {
+      return res.status(404).json({ error: 'Calificación no encontrada' });
+    }
+
+    res.status(200).json({ message: 'Calificación eliminada correctamente', deletedRating });
+  } catch (error) {
+    res.status(500).json({ error: 'Error al eliminar la calificación' });
+  }
+};
+
+// Función para eliminar permanentemente una calificación
+const deletePermanentRating = async (req, res) => {
+  const { ratingId } = req.params; // Obtener el ID de la calificación de los parámetros de la solicitud
+
+  try {
+    const deletedRating = await Rating.findByIdAndDelete(ratingId); // Buscar y eliminar permanentemente la calificación por su ID
+
+    if (!deletedRating) {
+      return res.status(404).json({ error: 'Calificación no encontrada' });
+    }
+
+    res.status(200).json({ message: 'Calificación eliminada permanentemente correctamente' });
+  } catch (error) {
+    res.status(500).json({ error: 'Error al eliminar permanentemente la calificación' });
+  }
+};
+
 module.exports = {
     getRating,
     addRating,
-    //deleteRating,
-    //updateRating,
-    //permanentDelete
+    deleteRating,
+    updateRating,
+    permanentDeleteRating
   }
