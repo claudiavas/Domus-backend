@@ -1,7 +1,7 @@
 const Housing = require('../models/housingModel');
 
 const { ObjectId } = require('mongodb');
-const agentId = new ObjectId()
+const housingId = new ObjectId()
 
 
 
@@ -81,6 +81,8 @@ const updateHouse = async (req, res, next) => {
     res.status(500).json({msg: error.message });
   }
 };
+
+
 
 module.exports = {
   getHouse,
