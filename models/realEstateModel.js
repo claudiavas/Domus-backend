@@ -21,13 +21,11 @@ const realEstateSchema = new Schema({
 
   mainOfficeAddress: {
     type: String,
-    required: true,
     default: "Spain",
     },
     
   mainOfficeCountry: {
     type: String,
-    required: true,
     default: "Spain",
     },
 
@@ -39,7 +37,6 @@ const realEstateSchema = new Schema({
 
   mainOfficeZipCode: {
     type: String,
-    required: true,
     default: "Spain",
     },
     
@@ -89,7 +86,6 @@ const realEstateSchema = new Schema({
 
   bannedReason: {
     type: String,
-    requiered: true,
   },
 
   deletedAt: {
