@@ -3,7 +3,7 @@ const Realstate = require('../models/realEstateModel');
 const { ObjectId } = require('mongodb');
 
 // Función para agregar una inmobiliaria
-const addRealstate = async (req, res) => {
+const addRealEstate = async (req, res) => {
   const {
     NIF,
     businessName,
@@ -54,7 +54,7 @@ const addRealstate = async (req, res) => {
 };
 
 // Función para obtener una inmobiliaria por su ID
-const getRealstate = async (req, res) => {
+const getRealEstate = async (req, res) => {
   const { realEstateId } = req.params; // Obtener el ID de la inmobiliaria de los parámetros de la solicitud
 
   try {
@@ -71,7 +71,7 @@ const getRealstate = async (req, res) => {
 };
 
 // Función para eliminar una inmobiliaria (soft delete)
-const deleteRealstate = async (req, res) => {
+const deleteRealEstate = async (req, res) => {
   const { realEstateId } = req.params; // Obtener el ID de la inmobiliaria de los parámetros de la solicitud
 
   try {
@@ -92,7 +92,7 @@ const deleteRealstate = async (req, res) => {
 };
 
 // Función para actualizar una inmobiliaria
-const updateRealstate = async (req, res) => {
+const updateRealEstate = async (req, res) => {
   const { realEstateId } = req.params; // Obtener el ID de la inmobiliaria de los parámetros de la solicitud
   const updateData = req.body; // Obtener los nuevos datos de la inmobiliaria del cuerpo de la solicitud
 
@@ -114,7 +114,7 @@ const updateRealstate = async (req, res) => {
 };
 
 // Función para eliminar permanentemente una inmobiliaria
-const permanentDeleteRealstate = async (req, res) => {
+const permanentDeleteRealEstate = async (req, res) => {
   const { realEstateId } = req.params; // Obtener el ID de la inmobiliaria de los parámetros de la solicitud
 
   try {
@@ -131,9 +131,9 @@ const permanentDeleteRealstate = async (req, res) => {
 };
 
 module.exports = {
-  getRealstate,
-  addRealstate,
-  deleteRealstate,
-  updateRealstate,
-  permanentDeleteRealstate,
+  getRealEstate,
+  addRealEstate,
+  deleteRealEstate,
+  updateRealEstate,
+  permanentDeleteRealEstate,
 };
