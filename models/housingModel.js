@@ -8,9 +8,9 @@ const housingSchema = new Schema({
       ref: "realEstate"
       },
 
-    realEstate: { 
+    user: { 
       type: mongoose.Schema.Types.ObjectID,
-      ref: "realEstate"
+      ref: "user"
       },
 
     type: { 
