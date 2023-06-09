@@ -1,7 +1,7 @@
 const Rating = require('../models/ratingModel.js');
 
 const { ObjectId } = require('mongodb');
-const agentId = new ObjectId()
+const ratingId = new ObjectId()
 
 //Función para añadir una calificación
 
