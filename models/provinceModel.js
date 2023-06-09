@@ -3,6 +3,12 @@ const Schema = mongoose.Schema;
 
 const provinceSchema = new Schema({
 
+    code: {
+      type: String,
+      required: true,
+    },
+
+
     country: {
       type: String,
       required: true,
@@ -16,6 +22,4 @@ const provinceSchema = new Schema({
     
   });
   
-  const Province = mongoose.model('Province', provinceSchema);
-  
-  module.exports = Province;
+module.exports = mongoose.model("Province", provinceSchema);

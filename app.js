@@ -3,18 +3,19 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
-const cors = require("cors")
+const cors = require("cors");
 
 
 const port = process.env.PORT || 3005
 
 var indexRoutes = require('./routes/index'); 
 var userRoutes = require('./routes/userRoutes'); 
+var provinceRoutes = require('./routes/provinceRoutes'); 
 var housingRoutes = require('./routes/housingRoutes');
 var requestRoutes = require('./routes/requestRoutes');
 var ratingRoutes = require('./routes/ratingRoutes');
 var imageRoutes = require('./routes/imageRoutes'); 
-var realstateRoutes = require('./routes/realstateRoutes');
+var realEstateRoutes = require('./routes/realEstateRoutes');
 
 
 var app = express();
@@ -40,8 +41,9 @@ require ('./mongo');
 app.use('/', indexRoutes);
 app.use('/user', userRoutes);
 app.use('/api/housing', housingRoutes);
+app.use('/api/province', provinceRoutes);
 app.use('/api/request', requestRoutes);
-app.use('/api/realstate', realstateRoutes);
+app.use('/api/realEstate', realEstateRoutes);
 app.use('/api/rating', ratingRoutes);
 app.use('/api/image', imageRoutes);
 
@@ -65,10 +67,5 @@ app.use(function (err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
-
-// Start server
-// app.listen(port, () => {
-//  console.log(`Example app listening on port ${port}`);
-//});
 
 module.exports = app;

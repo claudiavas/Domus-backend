@@ -1,7 +1,7 @@
 const Housing = require('../models/housingModel');
 
 const { ObjectId } = require('mongodb');
-const agentId = new ObjectId()
+const housingId = new ObjectId()
 
 
 const addHouse = (req,res) => {
@@ -66,13 +66,15 @@ const addHouse = (req,res) => {
 };
 
 const getHouse = (req, res) => {
-  let filter = {}; // Define the 'filter' variable with a default value
+  let filter = {};
 
   if (req.query.status) {
     filter.status = req.query.status;
   }
 
   Housing.find(filter)
+    .populate('realEstate')
+    .populate('user')
     .then((houses) => {
       if (houses.length === 0) {
         res.status(404).send({ msg: 'No se han encontrado viviendas' });
@@ -82,6 +84,8 @@ const getHouse = (req, res) => {
     })
     .catch((error) => res.status(400).send(error));
 };
+
+
 
 module.exports = {
   getHouse,
