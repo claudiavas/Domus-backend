@@ -1,103 +1,97 @@
-const Request = require('../models/requestModel');
+const Request = require('../models/request');
 
-const addRequest = (req, res) => {
-  const newRequest = new Request({
-    realState: req.body.realState,
-    type: req.body.type,
-    transaction: req.body.transaction,
-    country: req.body.country,
-    community: req.body.community,
-    province: req.body.province,
-    municipality: req.body.municipality,
-    population: req.body.population,
-    neighborhood: req.body.neighborhood,
-    minM2: req.body.minM2,
-    maxM2: req.body.maxM2,
-    currency: req.body.currency,
-    minPrice: req.body.minPrice,
-    maxPrice: req.body.maxPrice,
-    floorLevel: req.body.floorLevel,
-    facing: req.body.facing,
-    propertyAge: req.body.propertyAge,
-    comments: req.body.comments,
-    rooms: req.body.rooms,
-    baths: req.body.baths,
-    garages: req.body.garages,
-    condition: req.body.condition,
-    furnished: req.body.furnished,
-    kitchenEquipment: req.body.kitchenEquipment,
-    closets: req.body.closets,
-    airConditioning: req.body.airConditioning,
-    heating: req.body.heating,
-    elevator: req.body.elevator,
-    outsideView: req.body.outsideView,
-    garden: req.body.garden,
-    pool: req.body.pool,
-    terrace: req.body.terrace,
-    storage: req.body.storage,
-    accessible: req.body.accessible,
-    status: req.body.status,
-    deletedAt: req.body.deletedAt
-  });
+// Función para obtener una solicitud por su ID
+const getRequest = async (req, res) => {
+  const { requestId } = req.params; // Obtener el ID de la solicitud de los parámetros de la solicitud
 
-  newRequest
-    .save()
-    .then((request) => res.status(200).send(request))
-    .catch((error) => {
-      console.log(error.code);
-      switch (error.code) {
-        case 11000:
-          res.status(400).send({ msg: 'La solicitud ya existe' });
-          break;
-        default:
-          res.status(400).send(error);
-      }
-    });
-};
+  try {
+    const request = await Request.findById(requestId); // Buscar la solicitud por su ID
 
-const getRequest = (req, res) => {
-  if (req.params.requestId) {
-    Request.findById(req.params.requestId)
-      .then((request) => {
-        if (request === null) {
-          res.status(404).send({ msg: 'No se ha encontrado la solicitud' });
-        } else {
-          res.status(200).send(request);
-        }
-      })
-      .catch((error) => {
-        console.log(error);
-        switch (error.name) {
-          case 'CastError':
-            res.status(400).send('Formato de ID inválido');
-            break;
-          default:
-            res.status(400).send(error);
-        }
-      });
-  } else {
-    let filter = {};
-
-    if (req.query.status) {
-      filter.status = req.query.status;
+    if (!request) {
+      return res.status(404).json({ error: 'Solicitud no encontrada' });
     }
 
-    Request.find(filter)
-      .then((request) => {
-        if (request.length === 0) {
-          res.status(404).send({ msg: 'No se han encontrado solicitudes' });
-        } else {
-          res.status(200).send(request);
-        }
-      })
-      .catch((error) => res.status(400).send(error));
+    res.status(200).json({ request });
+  } catch (error) {
+    res.status(500).json({ error: 'Error al obtener la solicitud' });
+  }
+};
+
+// Función para agregar una solicitud
+const addRequest = async (req, res) => {
+  const requestData = req.body; // Obtener los datos de la solicitud del cuerpo de la solicitud
+
+  try {
+    const request = new Request(requestData); // Crear una nueva instancia de Request
+
+    await request.save(); // Guardar la nueva solicitud en la base de datos
+
+    res.status(201).json({ message: 'Solicitud agregada correctamente', request });
+  } catch (error) {
+    res.status(500).json({ error: 'Error al agregar la solicitud' });
+  }
+};
+
+// Función para eliminar una solicitud (marcar como eliminada)
+const deleteRequest = async (req, res) => {
+  const { requestId } = req.params; // Obtener el ID de la solicitud de los parámetros de la solicitud
+
+  try {
+    const deletedRequest = await Request.findByIdAndUpdate(
+      requestId,
+      { deletedAt: new Date() },
+      { new: true }
+    ); // Buscar y marcar como eliminada la solicitud por su ID
+
+    if (!deletedRequest) {
+      return res.status(404).json({ error: 'Solicitud no encontrada' });
+    }
+
+    res.status(200).json({ message: 'Solicitud eliminada correctamente', deletedRequest });
+  } catch (error) {
+    res.status(500).json({ error: 'Error al eliminar la solicitud' });
+  }
+};
+
+// Función para actualizar una solicitud
+const updateRequest = async (req, res) => {
+  const { requestId } = req.params; // Obtener el ID de la solicitud de los parámetros de la solicitud
+  const updateData = req.body; // Obtener los nuevos datos de la solicitud del cuerpo de la solicitud
+
+  try {
+    const updatedRequest = await Request.findByIdAndUpdate(requestId, updateData, { new: true }); // Buscar y actualizar la solicitud por su ID
+
+    if (!updatedRequest) {
+      return res.status(404).json({ error: 'Solicitud no encontrada' });
+    }
+
+    res.status(200).json({ message: 'Solicitud actualizada correctamente', updatedRequest });
+  } catch (error) {
+    res.status(500).json({ error: 'Error al actualizar la solicitud' });
+  }
+};
+
+// Función para eliminar permanentemente una solicitud
+const permanentDeleteRequest = async (req, res) => {
+  const { requestId } = req.params; // Obtener el ID de la solicitud de los parámetros de la solicitud
+
+  try {
+    const deletedRequest = await Request.findByIdAndDelete(requestId); // Buscar y eliminar permanentemente la solicitud por su ID
+
+    if (!deletedRequest) {
+      return res.status(404).json({ error: 'Solicitud no encontrada' });
+    }
+
+    res.status(200).json({ message: 'Solicitud eliminada permanentemente correctamente' });
+  } catch (error) {
+    res.status(500).json({ error: 'Error al eliminar permanentemente la solicitud' });
   }
 };
 
 module.exports = {
-  getRequest,
-  addRequest,
-  // deleteRequest,
-  // updateRequest,
-  // permanentDelete
+   getRequest,
+   addRequest,
+   deleteRequest,
+   updateRequest,
+   permanentDeleteRequest
 };
