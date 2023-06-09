@@ -21,8 +21,9 @@ const userSchema = new Schema({
   },
 
   agentRegistrationProvince: {
-    type: String,
-  },
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Provinces',
+    },
 
   name: {
     type: String,
