@@ -1,4 +1,4 @@
-const Request = require('../models/request');
+const Request = require('../models/requestModel');
 
 // Función para obtener una solicitud por su ID
 const getRequest = async (req, res) => {
