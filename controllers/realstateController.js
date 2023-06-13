@@ -11,7 +11,7 @@ const addRealstate = async (req, res) => {
 
     await realEstate.save(); // Guardar la nueva inmobiliaria en la base de datos
 
-    res.status(201).json({ message: 'Inmobiliaria agregada correctamente', realEstate });
+    res.status(201).json({ msg: 'Inmobiliaria agregada correctamente', realEstate });
   } catch (error) {
     res.status(500).json({ error: 'Error al agregar la inmobiliaria' });
   }
@@ -22,7 +22,7 @@ const getRealstate = async (req, res) => {
   const { realEstateId } = req.params; // Obtener el ID de la inmobiliaria de los parámetros de la solicitud
 
   try {
-    const realEstate = await RealEstate.findById(realEstateId); // Buscar la inmobiliaria por su ID
+    const realEstate = await realEstate.findById(realEstateId); // Buscar la inmobiliaria por su ID
 
     if (!realEstate) {
       return res.status(404).json({ error: 'Inmobiliaria no encontrada' });
@@ -39,7 +39,7 @@ const deleteRealstate = async (req, res) => {
   const { realEstateId } = req.params; // Obtener el ID de la inmobiliaria de los parámetros de la solicitud
 
   try {
-    const deletedRealEstate = await RealEstate.findByIdAndUpdate(
+    const deletedRealEstate = await realEstateId.findByIdAndUpdate(
       realEstateId,
       { deletedAt: new Date() },
       { new: true }
@@ -61,7 +61,7 @@ const updateRealstate = async (req, res) => {
   const updateData = req.body; // Obtener los nuevos datos de la inmobiliaria del cuerpo de la solicitud
 
   try {
-    const updatedRealEstate = await RealEstate.findByIdAndUpdate(
+    const updatedRealEstate = await realEstateId.findByIdAndUpdate(
       realEstateId,
       updateData,
       { new: true }
@@ -82,7 +82,7 @@ const permanentDeleteRealstate = async (req, res) => {
   const { realEstateId } = req.params; // Obtener el ID de la inmobiliaria de los parámetros de la solicitud
 
   try {
-    const deletedRealEstate = await RealEstate.findByIdAndDelete(realEstateId); // Buscar y eliminar permanentemente la inmobiliaria por su ID
+    const deletedRealEstate = await realEstateId.findByIdAndDelete(realEstateId); // Buscar y eliminar permanentemente la inmobiliaria por su ID
 
     if (!deletedRealEstate) {
       return res.status(404).json({ error: 'Inmobiliaria no encontrada' });
