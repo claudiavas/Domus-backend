@@ -23,7 +23,6 @@ const addImage = async (req, res) => {
 };
 
 // Función para obtener la imagen de una vivienda
-
 const getImage = async (req, res) => {
   try {
     if (req.params.imageId) {
