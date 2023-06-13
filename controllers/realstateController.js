@@ -4,46 +4,10 @@ const { ObjectId } = require('mongodb');
 
 // Función para agregar una inmobiliaria
 const addRealstate = async (req, res) => {
-  const {
-    NIF,
-    businessName,
-    profileSummary,
-    mainOfficeAddress,
-    mainOfficeCountry,
-    mainOfficeProvince,
-    mainOfficeZipCode,
-    telephone1,
-    telephone2,
-    email,
-    web,
-    rent,
-    buy_sell,
-    holiday_rental,
-    logo,
-    status,
-    bannedReason
-  } = req.body; // Obtener los datos de la inmobiliaria del cuerpo de la solicitud
+  const RealEstateData = req.body; // Obtener los datos de la inmobiliaria del cuerpo de la solicitud
 
   try {
-    const realEstate = new RealEstate({
-      NIF,
-      businessName,
-      profileSummary,
-      mainOfficeAddress,
-      mainOfficeCountry,
-      mainOfficeProvince,
-      mainOfficeZipCode,
-      telephone1,
-      telephone2,
-      email,
-      web,
-      rent,
-      buy_sell,
-      holiday_rental,
-      logo,
-      status,
-      bannedReason
-    }); // Crear una nueva instancia de RealEstate
+    const realEstate = new RealEstate(RealEstateData); // Crear una nueva instancia de RealEstate
 
     await realEstate.save(); // Guardar la nueva inmobiliaria en la base de datos
 
