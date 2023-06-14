@@ -5,30 +5,27 @@ const ratingId = new ObjectId()
 
 //Función para añadir una calificación
 
-const addRating = (req,res) => {
-    const newRating = new Rating({
-        evaluatedUser:req.body.evaluatedUser,
-        evaluatingUser:req.body.evaluatingUser,
-        rating:req.body.rating,
-        commentBrief:req.body.commentBrief,
-        comment:req.body.comment,
-               
-    });
-  
-    newRating
-      .save()
-      .then((rating) => res.status(200).send(rating))
-      .catch((error) => {
-        console.log(error.code);
-        switch (error.code) {
-          case 11000:
-            res.status(400).send({ msg: 'La puntuación ya existe' });
-            break;
-          default:
-            res.status(400).send(error);
-        }
-      });
-  };
+const addRating = async (req, res) => {
+  const ratingData = req.body;
+
+  try {
+    const rating = new Rating(ratingData); // Crear una nueva instancia de calificación
+
+    await Rating.save(); // Guardar la nueva solicitud en la base de datos
+
+    res.status(200).send(rating);
+  } catch (error) {
+    console.log(error.code);
+    switch (error.code) {
+      case 11000:
+        res.status(400).send({ msg: 'La puntuación ya existe' });
+        break;
+      default:
+        res.status(400).send(error);
+    }
+  }
+};
+
 
 //Función para obtener una calificación  
 
