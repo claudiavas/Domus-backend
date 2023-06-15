@@ -95,7 +95,7 @@ const permanentDeleteRealEstate = async (req, res) => {
 };
 
 module.exports = {
-  getRealstate,
+  getRealEstate,
   addRealEstate,
   deleteRealEstate,
   updateRealEstate,
