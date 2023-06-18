@@ -138,7 +138,7 @@ const housingSchema = new Schema({
       type: Boolean,
     },
 
-    airCondicioned: {
+    airConditioned: {
       type: Boolean
     },
 
