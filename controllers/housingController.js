@@ -19,21 +19,34 @@ const addHouse = async (req, res) => {
   }
 };
 
+
 const getHouse = async (req, res) => {
   try {
-    const filter = req.query.status ? { status: req.query.status } : {}; // Define el filtro basado en el parámetro de consulta 'status'
+    if (req.params.houseId) {
+      // Si se proporciona un ID de casa en la ruta, buscar una casa por ID
+      const house = await Housing.findById(req.params.houseId);
 
-    const houses = await Housing.find(filter); // Buscar las viviendas que coincidan con el filtro
+      if (!house) {
+        return res.status(404).json({ msg: 'No se ha encontrado la vivienda' });
+      }
 
-    if (houses.length === 0) {
-      res.status(404).json({ msg: 'No se han encontrado viviendas' });
+      return res.status(200).json(house);
     } else {
-      res.status(200).json(houses);
+      // Si no se proporciona un ID de casa en la ruta, buscar todas las casas
+      const filter = req.query.status ? { status: req.query.status } : {};
+      const houses = await Housing.find(filter);
+
+      if (houses.length === 0) {
+        return res.status(404).json({ msg: 'No se han encontrado viviendas' });
+      }
+
+      return res.status(200).json(houses);
     }
   } catch (error) {
-    res.status(400).json(error);
+    return res.status(400).json(error);
   }
 };
+
 
 // soft Delete house
     
