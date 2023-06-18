@@ -4,8 +4,9 @@ const Schema = mongoose.Schema
 const housingSchema = new Schema({
     
     realEstate: { 
-      type: mongoose.Schema.Types.ObjectID,
-      ref: "realEstate"
+      type: String
+      // type: mongoose.Schema.Types.ObjectID,
+      // ref: "realEstate"
       },
 
     user: { 
@@ -31,33 +32,23 @@ const housingSchema = new Schema({
       default: "Spain",
       },
 
-    community: { //Api Externa
-      type: String,
+    province: { // external API
+      type: Object,
       required: true,
       },
-
-    province: { // external API
-      type: String,
-      required: true,
-      },  
     
     municipality: { // external API
-      type: String,
-      required: true,
-      },
-
-    population: { // external API
-      type: String,
+      type: Object,
       required: true,
       },
 
     neighborhood: { // external API
-      type: String,
+      type: Object,
       required: true,
       },
 
     zipCode: { // external API
-      type: Number,
+      type: Object,
       },
 
     squareMeters: {
@@ -76,13 +67,8 @@ const housingSchema = new Schema({
       required: true,
       },
 
-    roadType: {
-      type: mongoose.Schema.Types.ObjectID,
-      ref: "roadTypes",
-      },
-
-    roadName: {
-      type: String,
+    roadName: { // external API
+      type: Object,
       },
     
     houseNumber: {
