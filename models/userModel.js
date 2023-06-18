@@ -43,13 +43,11 @@ const userSchema = new Schema({
 
   mainOfficeProvince: {
     type: mongoose.Schema.Types.ObjectId,
-    required: true,
     ref: 'Provinces',
     },
 
   mainOfficeZipCode: {
     type: String,
-    required: true,
     default: "Spain",
     },
 
@@ -103,7 +101,6 @@ const userSchema = new Schema({
 
   bannedReason: {
     type: String,
-    requiered: true,
   },
 
   deletedAt: {
