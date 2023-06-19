@@ -1,6 +1,7 @@
-const Realstate = require('../models/realEstateModel');
+const RealEstate = require('../models/realEstateModel');
 
 const { ObjectId } = require('mongodb');
+const provinceId = new ObjectId()
 
 // Función para agregar una inmobiliaria
 const addRealEstate = async (req, res) => {
@@ -19,7 +20,8 @@ const addRealEstate = async (req, res) => {
 
 // Función para obtener una inmobiliaria por su ID
 const getRealEstate = async (req, res) => {
-  const { realEstateId } = req.params; // Obtener el ID de la inmobiliaria de los parámetros de la solicitud
+
+  const { realEstateId} = req.params; // Obtener el ID de la inmobiliaria de los parámetros de la solicitud
 
   try {
     const realEstate = await RealEstate.findById(realEstateId); // Buscar la inmobiliaria por su ID

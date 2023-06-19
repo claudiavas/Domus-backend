@@ -24,40 +24,25 @@ const meUser = (req, res) => {
 
 // Add New User
 
-const addUser= (req, res) => {
-    const newUser = new User({
-        identification: req.body.identification,
-        name: req.body.name,
-        surname: req.body.surname,
-        address: req.body.address,
-        city: req.body.city,
-        province: req.body.province,
-        zip_code: req.body.zip_code,
-        telephone: req.body.telephone,
-        email: req.body.email,
-        password: req.body.password,
-        date_register: req.body.date_register,
-        observations: req.body.observations,
-        id_realstate: req.body.id_realstate,
-        tipo_usuario: req.body.tipo_usuario,
-        foto_perfil: req.body.foto_perfil,
-        deleteAt:req.body.deleteAt
-    });
-
-newUser
-    .save()
-    .then((user) => res.status(200).send(user))    
-    .catch((error) => {
-        console.log(error.code);
-        switch (error.code) {
-            case 11000:
-                res.status(400).send({msg: 'El Usuario ya existe' });
-                break;
-            default:
-                res.status(400).send(error);
-        }
-    });
-};
+const addUser = async (req, res) => {
+    try {
+      const userData = req.body;
+      const newUser = new User(userData);
+  
+      const user = await newUser.save();
+      res.status(200).send(user);
+    } catch (error) {
+      console.log(error.code);
+  
+      switch (error.code) {
+        case 11000:
+          res.status(400).send({ msg: 'El Usuario ya existe' });
+          break;
+        default:
+          res.status(400).send(error);
+      }
+    }
+  };
 
 // Get user
 
@@ -83,11 +68,9 @@ const getUser = (req,res) => {
             });
     } else {
         let filter = {};
-
-        if (req.query.status) {
+        if (req.query) {
             filter.status = req.query.status;
         }
-
         console.log(req.query.status, filter);
         user.find(filter)
             .then ((user) => {

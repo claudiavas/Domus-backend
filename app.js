@@ -10,7 +10,6 @@ const port = process.env.PORT || 3005
 
 var indexRoutes = require('./routes/index'); 
 var userRoutes = require('./routes/userRoutes'); 
-var provinceRoutes = require('./routes/provinceRoutes'); 
 var housingRoutes = require('./routes/housingRoutes');
 var requestRoutes = require('./routes/requestRoutes');
 var ratingRoutes = require('./routes/ratingRoutes');
@@ -41,7 +40,6 @@ require ('./mongo');
 app.use('/', indexRoutes);
 app.use('/user', userRoutes);
 app.use('/api/housing', housingRoutes);
-app.use('/api/province', provinceRoutes);
 app.use('/api/request', requestRoutes);
 app.use('/api/realEstate', realEstateRoutes);
 app.use('/api/rating', ratingRoutes);
