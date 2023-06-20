@@ -170,7 +170,7 @@ const housingSchema = new Schema({
       type: Boolean
     },
 
-    accesible: {
+    accessible: {
       type: Boolean
     },
 
