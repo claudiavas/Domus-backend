@@ -77,24 +77,30 @@ const permanentDeleteHouse = async (req, res) => {
     res.status(500).json({msg: error.message});
   }
 }
-// Update House 
-const updateHouse = async (req, res, next) => {
-  try {
-    const housingId = req.params._id;
-    const updates = req.body;
-    const options = { new: true};
 
-    const updatedHouse = await Housing.findByIdAndUpdate(HousingId, updates, options);
-
-    if (!updatedHousing) {
-      return res.status.json(404).json({msg: 'No se encontro la vivienda'});
-    }
-    res.status(200).json({ updatedHousing });  // Devuelve la vivienda actualizada
-  } catch (error) {
-    res.status(500).json({msg: error.message });
-  }
-};
-
+const updateHouse = (req,res) => {
+  Housing.findByIdAndUpdate(
+    { _id: req.params.houseId },
+    req.body,
+    { new: true }
+  )
+      .then(house=>{
+          if (house === null) {
+              res.status(404).send({msg: "No se han encontrado la vivienda"})
+          } else {
+              res.status(200).send(house)   
+          }
+      })
+      .catch(error=>{
+          switch (error.name) {
+              case 'CastError':
+                  res.status(400).send({msg: 'Formato de id inválido'})
+                  break;
+              default:
+                  res.status(400).send(error)
+          }
+      })
+}
 
 
 module.exports = {
