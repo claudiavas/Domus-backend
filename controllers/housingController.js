@@ -7,7 +7,7 @@ const housingId = new ObjectId()
 
 const addHouse = async (req, res) => {
   const houseData = req.body; // Obtener los datos de la vivienda del cuerpo de la solicitud
-
+  console.log('el body es', req.body);
   try {
     const newHouse = new Housing(houseData); // Crear una nueva instancia del modelo de vivienda
 

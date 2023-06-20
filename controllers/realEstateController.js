@@ -59,7 +59,8 @@ const deleteRealEstate = async (req, res) => {
 
 // Función para actualizar una inmobiliaria
 const updateRealEstate = async (req, res) => {
-  const { realEstateId } = req.params; // Obtener el ID de la inmobiliaria de los parámetros de la solicitud
+  const realEstateId  = req.params.realEstateId; // Obtener el ID de la inmobiliaria de los parámetros de la solicitud
+  console.log('params', req.params);
   const updateData = req.body; // Obtener los nuevos datos de la inmobiliaria del cuerpo de la solicitud
 
   try {
@@ -68,11 +69,11 @@ const updateRealEstate = async (req, res) => {
       updateData,
       { new: true }
     ); // Buscar y actualizar la inmobiliaria por su ID
-
+    console.log('id', realEstateId);
     if (!updatedRealEstate) {
       return res.status(404).json({ error: 'Inmobiliaria no encontrada' });
     }
-
+    
     res.status(200).json({ message: 'Inmobiliaria actualizada correctamente', updatedRealEstate });
   } catch (error) {
     res.status(500).json({ error: 'Error al actualizar la inmobiliaria' });

@@ -5,7 +5,7 @@ const realEstateController = require('../controllers/realEstateController');
 router.get('/:realEstateId?', realEstateController.getRealEstate);
 router.post('/', realEstateController.addRealEstate);
 router.delete('/:realEstateId?', realEstateController.deleteRealEstate);
- router.put('/:RealEstateId', realEstateController.updateRealEstate);
- router.delete('/:houseId/permanent', realEstateController.permanentDeleteRealEstate);
+router.put('/:RealEstateId', realEstateController.updateRealEstate);
+router.delete('/:houseId/permanent', realEstateController.permanentDeleteRealEstate);
 
 module.exports = router;
