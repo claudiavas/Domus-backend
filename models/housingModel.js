@@ -5,13 +5,13 @@ const housingSchema = new Schema({
     
     realEstate: { 
       type: String
-      // type: mongoose.Schema.Types.ObjectID,
-      // ref: "realEstate"
+      type: mongoose.Schema.Types.ObjectID,
+      ref: "RealEstate"
       },
 
     user: { 
       type: mongoose.Schema.Types.ObjectID,
-      ref: "user"
+      ref: "User"
       },
 
     type: { 
@@ -180,10 +180,7 @@ const housingSchema = new Schema({
       required: true,
       enum: ["active", "selled", "rented", "inactive", "deleted"]
     },
-    isdeleted: {
-      type: Boolean,
-      default: false,
-    },
+   
     deletedAt: {
       type: Date,
       default: null,
