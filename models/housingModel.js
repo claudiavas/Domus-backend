@@ -3,8 +3,7 @@ const Schema = mongoose.Schema
 
 const housingSchema = new Schema({
     
-    realEstate: { 
-      type: String
+    realEstate: {
       type: mongoose.Schema.Types.ObjectID,
       ref: "RealEstate"
       },
