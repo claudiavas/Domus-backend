@@ -3,13 +3,12 @@ const Schema = mongoose.Schema
 
 const housingSchema = new Schema({
     
-    realEstate: {
-      type: mongoose.Schema.Types.ObjectID,
-      ref: "RealEstate"
+    shhowRealEstateLogo: { 
+     type: Boolean,
       },
 
     user: { 
-      type: mongoose.Schema.Types.ObjectID,
+      type: mongoose.Schema.Types.ObjectId,
       ref: "User"
       },
 
@@ -41,6 +40,11 @@ const housingSchema = new Schema({
       required: true,
       },
 
+    population: { // external API
+      type: Object,
+      required: true,
+      },
+        
     neighborhood: { // external API
       type: Object,
       required: true,

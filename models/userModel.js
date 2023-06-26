@@ -20,9 +20,8 @@ const userSchema = new Schema({
     type: String,
   },
 
-  agentRegistrationProvince: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Provinces',
+  agentRegistrationCommunity: { // API EXTERNA
+    type: String,
     },
 
   name: {
@@ -42,8 +41,7 @@ const userSchema = new Schema({
     },
 
   mainOfficeProvince: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Provinces',
+    type: Object,
     },
 
   mainOfficeZipCode: {
@@ -79,9 +77,8 @@ const userSchema = new Schema({
     type: String,
   },
 
-  realEstate: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'RealEstate',
+  realEstateLogo: {
+    type: String,
     },
   
   userType: {
@@ -139,6 +136,8 @@ userSchema.pre('save', function (next) {
 userSchema.methods.comparePassword = function (password) {
   return bcrypt.compareSync(password, this.password);
 };
+
+
 
 // Method to generate the JWT (You choose the name)
 userSchema.methods.generateJWT = function() {

@@ -8,18 +8,21 @@ const { objectId } = require ('mongodb');
 // Me user
 
 const meUser = (req, res) => {
-    const token = req.headers.authorization;
+    const authHeader = req.headers.authorization;
+    const token = authHeader ? authHeader.replace("Bearer ", "") : null;
     console.log('tokeeeeennnn', token);
     // verifico si el token es correcto si error captura el catch
     try {
+        if (!token) {
+            throw new Error("Token no proporcionado");
+          }
         const decodedToken = jwt.verify(token, mySecret);
         console.log('decoded token es',decodedToken);
-        res.json({result: 'success', data: 'info: decodedToken'})
+        res.json({result: 'success', data: decodedToken})
     } catch (error) {
         console.log('este es el error al verificar el token');
         res.status(400).json({ result: 'No es un token válido'});
     }
-    res.json({info: decodedToken })
 }
 
 // Add New User

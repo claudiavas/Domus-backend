@@ -18,7 +18,7 @@ const { jwtMiddleware, authRouter} = require("../security/jwt")
 /* Obtener un usuario por su userId*/
   router.get("/", userController.getUser)
   
-  router.get("/userId?", userController.getUser)
+  router.get("/:userId", userController.getUser)
 
 
 module.exports = router;

@@ -21,7 +21,6 @@ const realEstateSchema = new Schema({
 
   mainOfficeAddress: {
     type: String,
-    default: "Spain",
     },
     
   mainOfficeCountry: {
@@ -29,16 +28,10 @@ const realEstateSchema = new Schema({
     default: "Spain",
     },
 
-  mainOfficeProvince: {
-    type: mongoose.Schema.Types.ObjectId,
+  mainOfficeProvince: { // Api Externa
+    type: Object,
     required: true,
-    ref: 'Provinces',
-    },
-
-  mainOfficeZipCode: {
-    type: String,
-    default: "Spain",
-    },
+    },  
     
   telephone1: {
     type: Number,

@@ -13,7 +13,6 @@ var userRoutes = require('./routes/userRoutes');
 var housingRoutes = require('./routes/housingRoutes');
 var requestRoutes = require('./routes/requestRoutes');
 var ratingRoutes = require('./routes/ratingRoutes');
-var imageRoutes = require('./routes/imageRoutes'); 
 var realEstateRoutes = require('./routes/realEstateRoutes');
 
 
@@ -43,7 +42,6 @@ app.use('/api/housing', housingRoutes);
 app.use('/api/request', requestRoutes);
 app.use('/api/realEstate', realEstateRoutes);
 app.use('/api/rating', ratingRoutes);
-app.use('/api/image', imageRoutes);
 
 
 app.get('/', (req, res) => {
