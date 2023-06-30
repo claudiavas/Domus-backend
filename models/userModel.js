@@ -44,11 +44,6 @@ const userSchema = new Schema({
     type: Object,
     },
 
-  mainOfficeZipCode: {
-    type: String,
-    default: "Spain",
-    },
-
   telephone1: {
     type: Number,
   },
