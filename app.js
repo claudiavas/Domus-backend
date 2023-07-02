@@ -14,15 +14,11 @@ var housingRoutes = require('./routes/housingRoutes');
 var requestRoutes = require('./routes/requestRoutes');
 var ratingRoutes = require('./routes/ratingRoutes');
 var realEstateRoutes = require('./routes/realEstateRoutes');
-var uploadImagesRoutes = require('./routes/uploadImagesRoutes');
 var emailRoutes = require('./routes/emailRoutes');
-const fileUpload = require('express-fileupload');
 
 
 var app = express();
 
-// Middleware para el manejo de archivos de imágenes
-app.use(fileUpload());
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -54,12 +50,11 @@ require ('./mongo');
 // Load routes
 app.use('/', indexRoutes);
 app.use('/user', userRoutes);
-app.use('/upload', uploadImagesRoutes);
 app.use('/api/housing', housingRoutes);
 app.use('/api/request', requestRoutes);
 app.use('/api/realEstate', realEstateRoutes);
 app.use('/api/rating', ratingRoutes);
-app.use('/api/sendemail', emailRoutes);
+//app.use('/api/sendemail', emailRoutes);
 
 
 // catch 404 and forward to error handler
