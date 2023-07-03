@@ -29,18 +29,13 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(cors({
-  origin: 'http://localhost:5173',
-}));
 
 // Configurar cabeceras CORS
-// Configurar cabeceras CORS
-app.use(function(req, res, next) {
-  res.header('Access-Control-Allow-Origin', '*'); // Permite todas las solicitudes de cualquier origen
-  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE'); // Métodos HTTP permitidos
-  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization'); // Cabeceras permitidas
-  next();
-});
+app.use(cors({
+  origin: 'http://localhost:5173',
+  methods: 'GET, POST, PUT, DELETE',
+  allowedHeaders: 'Origin, X-Requested-With, Content-Type, Accept, Authorization'
+}));
 
 
 // Conexion a BB DD.
@@ -53,8 +48,10 @@ app.use('/user', userRoutes);
 app.use('/api/housing', housingRoutes);
 app.use('/api/request', requestRoutes);
 app.use('/api/realEstate', realEstateRoutes);
+app.use('/api/sendemail', emailRoutes);
+// app.use('/api/pwdrecovery', emailRoutes);
+// app.use('/api/pwdreset', emailRoutes);
 app.use('/api/rating', ratingRoutes);
-//app.use('/api/sendemail', emailRoutes);
 
 
 // catch 404 and forward to error handler

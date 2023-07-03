@@ -58,9 +58,14 @@ const userSchema = new Schema({
     unique: true,
     trim: true
   },
+  
   password: {
     type: String,
     required: true
+  },
+
+  pwdRecoveryToken: {
+    type: String,
   },
 
   subscription: {

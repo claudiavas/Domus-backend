@@ -49,43 +49,52 @@ const addUser = async (req, res) => {
 
 // Get user
 
-const getUser = (req,res) => {
+const getUser = (req, res) => {
     if (req.params.userId) {
-        user.findById(req.params.userId)
-            .then ((user) => {
-                if (user === null ) {
-                    res.status(400).send({ msg: 'No se ha encontrado el usuario '});
-                } else {
-                    res.status(200).send(user);
-                }
-            })
-            .catch ((error) => {
-                console.log(error);
-                switch (error.name) {
-                    case 'CastError':
-                        res.status(400).send('Formato de ID de user inválido');
-                        break;
-                    default:
-                        res.status(400).send(error);
-                }
-            });
+      user.findById(req.params.userId)
+        .then((user) => {
+          if (user === null) {
+            res.status(400).send({ msg: 'No se ha encontrado el usuario' });
+          } else {
+            res.status(200).send(user);
+
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+          switch (error.name) {
+            case 'CastError':
+              res.status(400).send('Formato de ID de usuario inválido');
+              break;
+            default:
+              res.status(400).send(error);
+          }
+        });
     } else {
-        let filter = {};
-        if (req.query) {
-            filter.status = req.query.status;
-        }
-        console.log(req.query.status, filter);
-        user.find(filter)
-            .then ((user) => {
-                if (user.length === 0) {
-                    res.status(404).send({msg: 'No se han encontrado Usuarios' }) 
-                } else {
-                    res.status(200).send(user);
-                }
-            })
-            .catch ((error)=> res.status(400).send(error));
+      const filter = {};
+      
+      if (req.query.email) {
+        const email = req.query.email.trim().toLowerCase();
+        filter.email = { $regex: new RegExp(`^${email}$`) };
+      }      
+  
+      if (req.query.name) {
+        filter.name = req.query.name;
+      }
+  
+      user.find(filter)
+        .then((user) => {
+          if (user.length === 0) {
+            res.status(404).send({ msg: 'No se han encontrado usuarios' });
+          } else {
+            console.log(user);
+            res.status(200).send(user);
+          }
+        })
+        .catch((error) => res.status(400).send(error));
     }
-};
+  };
+  
 
 module.exports = {
     getUser,
