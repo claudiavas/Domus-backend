@@ -12,13 +12,14 @@ const { jwtMiddleware, authRouter} = require("../security/jwt")
 
 /* login */
   router.post("/login", authRouter)
-
 /* me Comprueba el token del usuario si es correcto */
   router.get("/me", userController.meUser)
 /* Obtener un usuario por su userId*/
-  router.get("/", userController.getUser)
+  router.get("/", userController.getUser) 
   
-  router.get("/:userId", userController.getUser)
+  router.get("/:userId", userController.getUser) // Obtener un usuario por su userId
+
+  router.put("/:userId", userController.updateUser) // Actualizar un usuario por su userId
 
 
 module.exports = router;

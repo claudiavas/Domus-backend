@@ -94,13 +94,40 @@ const getUser = (req, res) => {
         .catch((error) => res.status(400).send(error));
     }
   };
+  const updateUser = (req, res) => {
+    if (req.params.userId) {
+      const { userId } = req.params;
+      const updatedUser = req.body;
+  
+      user.findByIdAndUpdate(userId, updatedUser, { new: true }) // new: true devuelve el usuario actualizado
+        .then((updatedUser) => {
+          if (updatedUser === null) {
+            res.status(400).send({ msg: 'No se ha encontrado el usuario' });
+          } else {
+            res.status(200).send(updatedUser);
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+          switch (error.name) { 
+            case 'CastError':// error de formato de ID de usuario
+              res.status(400).send('Formato de ID de usuario inválido');
+              break;
+            default: // otro tipo de error
+              res.status(400).send(error);
+          }
+        });
+    } else { // no se ha proporcionado un ID de usuario
+      res.status(400).send({ msg: 'Se requiere un ID de usuario' });
+    }
+  };
   
 
 module.exports = {
     getUser,
     addUser,
     meUser,
+    updateUser,
     //deleteuser,
-    //updateuser,
     //permanetDeleteuser
 }
