@@ -118,6 +118,31 @@ authRouter.post("/login", async (req, res) => {
   }
 });
 
+// ! --------------------------------------
+
+authRouter.put("/resetpassword/:userId", async (req, res) => {
+  try {
+    const { userId } = req.params;
+    const { password } = req.body;
+
+    const user = await User.findByIdAndUpdate(userId, { password }, { new: false });
+
+    if (!user) {
+      return res.status(404).json({ error: 'Usuario no encontrado' });
+    }
+
+    user.password = password;
+    await user.save();
+
+    return res.status(200).json({ message: 'Contraseña actualizada exitosamente' });
+  } catch (error) {
+    return res.status(500).json({ error: 'Error al actualizar la contraseña', error: error.message });
+  }
+});
+
+
+  // ! --------------------------------------
+
 const jwtMiddleware = (req, res, next) => {
   // Recogemos el header "Authorization". Sabemos que viene en formato "Bearer XXXXX...",
   // así que nos quedamos solo con el token y obviamos "Bearer "

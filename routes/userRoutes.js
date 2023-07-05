@@ -1,5 +1,6 @@
 var express = require('express');
 var router = express.Router();
+// var jwt = require('../security/jwt')
 
 
 userController = require('../controllers/userController');
@@ -12,6 +13,10 @@ const { jwtMiddleware, authRouter} = require("../security/jwt")
 
 /* login */
   router.post("/login", authRouter)
+
+  /* resetPassword */
+  router.put("/resetpassword/:userId", authRouter)
+
 /* me Comprueba el token del usuario si es correcto */
   router.get("/me", userController.meUser)
 /* Obtener un usuario por su userId*/

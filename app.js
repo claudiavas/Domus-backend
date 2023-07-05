@@ -50,7 +50,6 @@ app.use('/api/housing', housingRoutes);
 app.use('/api/request', requestRoutes);
 app.use('/api/realEstate', realEstateRoutes);
 app.use('/api/sendEmail', forgotEmailRoutes);
-app.use('/api/resetPassword', resetPasswordRoutes);
 app.use('/api/rating', ratingRoutes);
 
 
