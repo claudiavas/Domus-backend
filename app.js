@@ -14,7 +14,8 @@ var housingRoutes = require('./routes/housingRoutes');
 var requestRoutes = require('./routes/requestRoutes');
 var ratingRoutes = require('./routes/ratingRoutes');
 var realEstateRoutes = require('./routes/realEstateRoutes');
-var emailRoutes = require('./routes/emailRoutes');
+var forgotEmailRoutes = require('./routes/forgotEmailRoutes');
+var resetPasswordRoutes = require('./routes/resetPasswordRoutes');
 
 
 var app = express();
@@ -48,9 +49,8 @@ app.use('/user', userRoutes);
 app.use('/api/housing', housingRoutes);
 app.use('/api/request', requestRoutes);
 app.use('/api/realEstate', realEstateRoutes);
-app.use('/api/sendemail', emailRoutes);
-// app.use('/api/pwdrecovery', emailRoutes);
-// app.use('/api/pwdreset', emailRoutes);
+app.use('/api/sendEmail', forgotEmailRoutes);
+app.use('/api/resetPassword', resetPasswordRoutes);
 app.use('/api/rating', ratingRoutes);
 
 

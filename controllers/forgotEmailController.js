@@ -1,4 +1,5 @@
 const SibApiV3Sdk = require('sib-api-v3-sdk');
+const {recoveryLink} = require('./resetPasswordController');
 
 const sendEmail = async (req, res) => {
   try {
@@ -13,19 +14,21 @@ const sendEmail = async (req, res) => {
       "templateId": 1,
       "params": {
         "email": recipientEmail,
-        "name": recipientName
+        "name": recipientName,
+        "link": recoveryLink(recipientEmail)
       },
       "messageVersions": [
         {
           "to": [
             {
               "email": recipientEmail,
-              "name": recipientName
+              "nombre": recipientName
             }
           ],
           "params": {
             "email": recipientEmail,
-            "name": recipientName
+            "nombre": recipientName,
+            "link": recoveryLink(recipientEmail)
           },
           "subject": "Tu nueva contraseña de Domus"
         }
@@ -34,6 +37,7 @@ const sendEmail = async (req, res) => {
 
     console.log('Correo electrónico enviado correctamente');
     res.status(200).json({ message: 'Correo electrónico enviado' });
+
   } catch (error) {
     console.error('Error al enviar el correo electrónico:', error);
     res.status(500).json({ error: 'Error al enviar el correo electrónico' });
