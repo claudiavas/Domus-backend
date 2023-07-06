@@ -1,21 +1,30 @@
+const { request } = require('http');
 const Request = require('../models/requestModel');
 
-// Función para obtener una solicitud por su ID
 const getRequest = async (req, res) => {
-  const { requestId } = req.params; // Obtener el ID de la solicitud de los parámetros de la solicitud
-
   try {
-    const request = await Request.findById(requestId); // Buscar la solicitud por su ID
-
+    if (req.params.requestId) {
+      // Si se proporciona un ID de request en la ruta, buscar el request por ID
+      const { requestId } = await Request.findById(requestId) 
+        .populate("user");
     if (!request) {
-      return res.status(404).json({ error: 'Solicitud no encontrada' });
+      return res.status(404).json({ msg: 'No se ha encontrado la solicitud' });
+    }  
+    
+    return res.status(200).json(request);
+    } else {
+        const filter = req.query.status ?{ status: req.query.status } : {};
+        const requests = await Request.find(filter)
+          .populate("user");
+      if (requests.length === 0) {
+        return res.status(400).json({ msg: 'No se han encontrado solicitudes' });
+      }
+      return res.status(200).json(requests);
     }
-
-    res.status(200).json({ request });
   } catch (error) {
-    res.status(500).json({ error: 'Error al obtener la solicitud' });
-  }
-};
+    return res.status(400).json(error);
+  } 
+};    
 
 // Función para agregar una solicitud
 const addRequest = async (req, res) => {
