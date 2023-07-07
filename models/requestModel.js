@@ -29,24 +29,24 @@ const requestSchema = new mongoose.Schema({
   },
 
   community: {
-    type: String,
+    type: Object,
     required: true
   },
 
   province: {
-    type: String
+    type: Object
   },
 
   municipality: {
-    type: String
+    type: Object
   },
 
   population: {
-    type: String
+    type: Object
   },
 
   neighborhood: {
-    type: String
+    type: Object
   },
 
   minM2: {
