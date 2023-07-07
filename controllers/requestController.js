@@ -1,12 +1,17 @@
-const { request } = require('http');
 const Request = require('../models/requestModel');
+
+const User = require('../models/userModel');
+
+const { ObjectId } = require('mongodb');
+const requestId = new ObjectId()
 
 const getRequest = async (req, res) => {
   try {
     if (req.params.requestId) {
       // Si se proporciona un ID de request en la ruta, buscar el request por ID
-      const { requestId } = await Request.findById(requestId) 
+      const request = await Request.findById(req.params.requestId) 
         .populate("user");
+
     if (!request) {
       return res.status(404).json({ msg: 'No se ha encontrado la solicitud' });
     }  
@@ -16,6 +21,7 @@ const getRequest = async (req, res) => {
         const filter = req.query.status ?{ status: req.query.status } : {};
         const requests = await Request.find(filter)
           .populate("user");
+          console.log('array de request', requests);
       if (requests.length === 0) {
         return res.status(400).json({ msg: 'No se han encontrado solicitudes' });
       }
