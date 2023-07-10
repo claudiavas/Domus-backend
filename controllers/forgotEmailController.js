@@ -1,10 +1,25 @@
 const SibApiV3Sdk = require('sib-api-v3-sdk');
-const {recoveryLink} = require('./resetPasswordController');
+const jwt = require('jsonwebtoken');
+
+const recoveryLink = async (email) => {
+  
+  try {
+    const token = jwt.sign({ email }, process.env.JWT_SECRET, { expiresIn: '1h' });
+    const link = `${process.env.FRONTEND_URL}/resetpassword/${token}`; // Enlace para restablecer la contraseña
+    console.log('Enlace de recuperación de contraseña:', link);
+    return link;
+    
+  } catch (error) {
+    console.error('Error al generar el enlace de recuperación de contraseña:', error);
+  }
+};
 
 const sendEmail = async (req, res) => {
   try {
     const recipientEmail = req.body.email;
     const recipientName = req.body.name;
+    const link = await recoveryLink(recipientEmail)
+    console.log('Enlace de recuperación de contraseña:', link)
 
     SibApiV3Sdk.ApiClient.instance.authentications['api-key'].apiKey = process.env.BREVO_APIKEY;
 
@@ -15,20 +30,21 @@ const sendEmail = async (req, res) => {
       "params": {
         "email": recipientEmail,
         "name": recipientName,
-        "link": recoveryLink(recipientEmail)
+        "url": link
       },
       "messageVersions": [
         {
           "to": [
             {
               "email": recipientEmail,
-              "nombre": recipientName
+              "nombre": recipientName,
+              "url": link
             }
           ],
           "params": {
             "email": recipientEmail,
             "nombre": recipientName,
-            "link": recoveryLink(recipientEmail)
+            "url": link
           },
           "subject": "Tu nueva contraseña de Domus"
         }
