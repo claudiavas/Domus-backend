@@ -1,6 +1,7 @@
 const express = require("express");
 const jwt = require("jsonwebtoken");
 const User = require("../models/userModel");
+const bcrypt = require("bcrypt");
 const jwtSecret = process.env.JWT_SECRET;
 
 const authRouter = express.Router();
@@ -121,26 +122,55 @@ authRouter.post("/login", async (req, res) => {
 // ! --------------------------------------
 
 authRouter.put("/resetpassword/:userId", async (req, res) => {
+  const userId = req.params.userId;
+  const newPassword = req.body.password;
+
   try {
-    const { userId } = req.params;
-    const { password } = req.body;
-
-    const user = await User.findByIdAndUpdate(userId, { password }, { new: false });
-
+    // Buscar al usuario por su ID
+    const user = await User.findById(userId);
+    // Verificar si el usuario existe
     if (!user) {
-      return res.status(404).json({ error: 'Usuario no encontrado' });
+      return res.status(404).json({ error: { result: "Usuario no encontrado" } });
     }
 
-    user.password = password;
+    // Actualizar la contraseña del usuario
+    user.password = newPassword;
     await user.save();
 
-    return res.status(200).json({ message: 'Contraseña actualizada exitosamente' });
+    return res.status(200).json({ message: "Contraseña actualizada correctamente" });
+    console.log('Contraseña actualizada correctamente');
   } catch (error) {
-    return res.status(500).json({ error: 'Error al actualizar la contraseña', error: error.message });
+    return res.status(500).json({ error: { result: "Error al actualizar la contraseña", error: error.message } });
   }
 });
 
+  // ! --------------------------------------
 
+// authRouter.put("/resetpassword/:token", async (req, res) => {
+//   try {
+//     const { token } = req.params;
+//     const { password } = req.body;
+
+//     // Verificar y decodificar el token
+//     const decodedToken = jwt.verify(token, 'secret_key');
+//     const userId = decodedToken.userId;
+
+//     // Buscar el usuario en la base de datos
+//     const user = await User.findById(userId);
+
+//     if (!user) {
+//       return res.status(404).json({ error: 'Usuario no encontrado' });
+//     }
+
+    // Actualizar la contraseña del usuario
+//     user.password = password;
+//     await user.save();
+
+//     return res.status(200).json({ message: 'Contraseña actualizada exitosamente' });
+//   } catch (error) {
+//     return res.status(500).json({ error: 'Error al actualizar la contraseña', error: error.message });
+//   }
+// });
   // ! --------------------------------------
 
 const jwtMiddleware = (req, res, next) => {
