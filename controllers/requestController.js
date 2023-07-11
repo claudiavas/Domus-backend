@@ -34,17 +34,20 @@ const getRequest = async (req, res) => {
 
 // Función para agregar una solicitud
 const addRequest = async (req, res) => {
-  const requestData = req.body; // Obtener los datos de la solicitud del cuerpo de la solicitud
-  console.log('req.body', req.body)
+  const { userId, ...requestFields} = req.body; // Obtener los datos de la solicitud del cuerpo de la solicitud
+  console.log('el body es', req.body)
   try {
-    const request = new Request(requestData); // Crear una nueva instancia de Request
-    console.log('request',request)
-    await request.save(); // Guardar la nueva solicitud en la base de datos
-
-    res.status(201).json({ message: 'Solicitud agregada correctamente', request });
+    const newRequest = new Request({
+      user: userId,
+      ...requestFields,
+    }); // Agregar los demás campos del Request utilizando la desestructuración
+    const populatedRequest = await Request.findById(newRequest._id)// Buscar la vivienda por su ID y por los campos relacionados
+      .populate('user')
+      .exec();
+    res.status(200).json({ msg: 'Request agregada con éxito', request: populatedRequest });
   } catch (error) {
-    console.log('error 500')
-    res.status(500).json({ error: 'Error al agregar la solicitud' });
+    console.log(error);
+    res.status(500).json({ error: 'Error al agregar la Request' });
   }
 };
 

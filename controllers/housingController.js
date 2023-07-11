@@ -10,11 +10,11 @@ const addHouse = async (req, res) => {
   console.log('el body es', req.body);
   try {
     const newHouse = new Housing({
-      user: userId,
+      user: userId, 
       ...houseFields, // Agregar los demás campos de la vivienda utilizando la desestructuración
     }); // Crear una nueva instancia del modelo de vivienda
     await newHouse.save(); // Guardar la vivienda en la base de datos
-    const populatedHouse = await Housing.findById(newHouse._id)// Buscar la vivienda por su ID y poblar los campos relacionados
+    const populatedHouse = await Housing.findById(newHouse._id)// Buscar la vivienda por su ID y por los campos relacionados
       .populate('user')
       .exec();
     res.status(200).json({ msg: 'Vivienda agregada con éxito', house: populatedHouse });
