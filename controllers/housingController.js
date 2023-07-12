@@ -86,7 +86,6 @@ const permanentDeleteHouse = async (req, res) => {
 
 const updateHouse = (req,res) => {
   Housing.findByIdAndUpdate({ _id: req.params.houseId }, req.body, { new: true })
-      .populate('realEstate') // para los campos relacionados
       .populate('user')
       .then(house=>{
           if (house === null) {
