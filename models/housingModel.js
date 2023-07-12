@@ -3,9 +3,13 @@ const Schema = mongoose.Schema
 
 const housingSchema = new Schema({
     
-    shhowRealEstateLogo: { 
+    showRealEstateLogo: { 
      type: Boolean,
       },
+
+    images: [{
+      type: String,
+      }],
 
     user: { 
       type: mongoose.Schema.Types.ObjectId,
@@ -103,6 +107,10 @@ const housingSchema = new Schema({
     propertyAge: {
       type: String,
       enum: ["new", "up_to_5 years", "6_to_10 years", "11_to_20 years", "more_than_20 years"]
+      },
+
+    title: {
+      type: String,
       },
 
     description: {
