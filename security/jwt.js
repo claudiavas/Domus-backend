@@ -78,7 +78,7 @@ authRouter.post("/register", async (req, res) => {
 
 authRouter.post("/login", async (req, res) => {
   const { email, password } = req.body;
-  console.log(req.body);
+  console.log("req body de login en auth router", req.body);
   // * Validate, email and password were provided in the request
   if (!email) {
     return res
@@ -88,6 +88,7 @@ authRouter.post("/login", async (req, res) => {
   
   try {
     const foundUser = await User.findOne({ email });
+    console.log('foundUser',foundUser);
     if (!foundUser) {
       return res
         .status(400)
@@ -101,6 +102,9 @@ authRouter.post("/login", async (req, res) => {
     }
 
     if (!foundUser.comparePassword(password)) { 
+      console.log("Found user in Login", foundUser)
+      console.log("found user Id", foundUser._id)
+      console.log("found user email", foundUser.email)
       return res.status(400).json({ error: { result: "Password inválido" } });
     }
     // * if everything is ok, return the new token and user data
@@ -141,36 +145,10 @@ authRouter.put("/resetpassword/:userId", async (req, res) => {
     console.log('Contraseña actualizada correctamente');
   } catch (error) {
     return res.status(500).json({ error: { result: "Error al actualizar la contraseña", error: error.message } });
+    console.error('Error al actualizar la contraseña:', error);
   }
 });
 
-  // ! --------------------------------------
-
-// authRouter.put("/resetpassword/:token", async (req, res) => {
-//   try {
-//     const { token } = req.params;
-//     const { password } = req.body;
-
-//     // Verificar y decodificar el token
-//     const decodedToken = jwt.verify(token, 'secret_key');
-//     const userId = decodedToken.userId;
-
-//     // Buscar el usuario en la base de datos
-//     const user = await User.findById(userId);
-
-//     if (!user) {
-//       return res.status(404).json({ error: 'Usuario no encontrado' });
-//     }
-
-    // Actualizar la contraseña del usuario
-//     user.password = password;
-//     await user.save();
-
-//     return res.status(200).json({ message: 'Contraseña actualizada exitosamente' });
-//   } catch (error) {
-//     return res.status(500).json({ error: 'Error al actualizar la contraseña', error: error.message });
-//   }
-// });
   // ! --------------------------------------
 
 const jwtMiddleware = (req, res, next) => {

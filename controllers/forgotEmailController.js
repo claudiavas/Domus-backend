@@ -1,14 +1,12 @@
 const SibApiV3Sdk = require('sib-api-v3-sdk');
 const jwt = require('jsonwebtoken');
 
-const recoveryLink = async (email) => {
-  
+const recoveryLink = async (email, userId) => {
   try {
-    const token = jwt.sign({ email }, process.env.JWT_SECRET, { expiresIn: '1h' });
-    const link = `${process.env.FRONTEND_URL}/resetpassword/${token}`; // Enlace para restablecer la contraseña
+    const token = jwt.sign({ email, userId }, process.env.JWT_SECRET, { expiresIn: '1h' });
+    const link = `${process.env.FRONTEND_URL}/passwordrecovery?token=${token}`; //Enlace para restablecer la contraseña con el token como query parameter
     console.log('Enlace de recuperación de contraseña:', link);
     return link;
-    
   } catch (error) {
     console.error('Error al generar el enlace de recuperación de contraseña:', error);
   }
@@ -18,7 +16,8 @@ const sendEmail = async (req, res) => {
   try {
     const recipientEmail = req.body.email;
     const recipientName = req.body.name;
-    const link = await recoveryLink(recipientEmail)
+    const recipientId = req.body.userId;
+    const link = await recoveryLink(recipientEmail, recipientId)
     console.log('Enlace de recuperación de contraseña:', link)
 
     SibApiV3Sdk.ApiClient.instance.authentications['api-key'].apiKey = process.env.BREVO_APIKEY;

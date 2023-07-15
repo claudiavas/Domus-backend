@@ -10,7 +10,7 @@ const { objectId } = require ('mongodb');
 const meUser = (req, res) => {
     const authHeader = req.headers.authorization;
     const token = authHeader ? authHeader.replace("Bearer ", "") : null;
-    console.log('tokeeeeennnn', token);
+    console.log('token', token);
     // verifico si el token es correcto si error captura el catch
     try {
         if (!token) {
