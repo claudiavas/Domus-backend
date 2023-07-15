@@ -31,7 +31,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // Configurar cabeceras CORS
 app.use(cors({
-  origin: 'http://localhost:5173',
+  origin: '*',
   methods: 'GET, POST, PUT, DELETE',
   allowedHeaders: 'Origin, X-Requested-With, Content-Type, Accept, Authorization'
 }));
