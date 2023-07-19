@@ -165,6 +165,10 @@ const requestSchema = new mongoose.Schema({
     enum: ["active", "fullfilled", "inactive", "deleted"]
   },
 
+  title: {
+    type: String,
+  },
+
   deletedAt: {
     type: Date,
   }
