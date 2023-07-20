@@ -85,6 +85,10 @@ const userSchema = new Schema({
     type: String,
     enum: ['Agent', 'RealState', 'Client'],
   },
+
+  images: [{
+    type: String,
+    }],
   
   profilePicture: {
     type: String,
