@@ -41,6 +41,7 @@ const addRequest = async (req, res) => {
       user: userId,
       ...requestFields,
     }); // Agregar los demás campos del Request utilizando la desestructuración
+    await newRequest.save();
     const populatedRequest = await Request.findById(newRequest._id)// Buscar la vivienda por su ID y por los campos relacionados
       .populate('user')
       .exec();
