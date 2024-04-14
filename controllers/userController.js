@@ -30,7 +30,7 @@ const meUser = (req, res) => {
 const addUser = async (req, res) => {
     try {
       const userData = req.body;
-      const newUser = new User(userData);
+      const newUser = new user(userData);
   
       const user = await newUser.save();
       res.status(200).send(user);

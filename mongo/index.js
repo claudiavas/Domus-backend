@@ -1,4 +1,4 @@
-//const dotenv = require("dotenv");
+const dotenv = require("dotenv");
 const mongoose = require ("mongoose");
 
 //we imort dotenv and activate the config method to be able to
@@ -11,8 +11,9 @@ const databasePort = process.env.DATABASE_PORT || '27017';
 const databaseName = process.env.DATABASE_NAME || '27017';
 const databaseUser = process.env.DATABASE_USER;
 const databasePassword = process.env.DATABASE_PASSWORD;
-const databaseURL = "mongodb+srv://" + process.env.DB_USER + ":" + process.env.DB_PASSWORD + "@" + process.env.DB_SERVER + "/" + process.env.DB_NAME + "?retryWrites=true&w=majority";
 
+const databaseURL = "mongodb+srv://" + process.env.DB_USER + ":" + process.env.DB_PASSWORD + "@" + process.env.DB_SERVER + "/" + process.env.DB_NAME + "?retryWrites=true&w=majority";
+// const databaseURL = "mongodb+srv://" + process.env.DB_USER + ":" + process.env.DB_PASSWORD + "@" + process.env.DB_SERVER + "/" + "?retryWrites=true&w=majority&appName=Cluster0";
 
 //if we have a full mogourl defined in the .env then use it to start an online conection
 //if (mongoUrl){
